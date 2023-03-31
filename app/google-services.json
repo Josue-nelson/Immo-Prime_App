@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "85525668860",
+    "project_id": "immo-prime",
+    "storage_bucket": "immo-prime.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85525668860:android:a2b48803d3c12f34ce8879",
+        "android_client_info": {
+          "package_name": "com.example.immo_prime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85525668860-s9ce2aeue46ifedq413hpsb0lkcpcon7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.immo_prime",
+            "certificate_hash": "34186f451810575ce388f7e798047f0dd8175c38"
+          }
+        },
+        {
+          "client_id": "85525668860-0gia122pmgl2ub600drsuj0f1tjlvq03.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD8ZKW5zRJPCJ4qDd__m9VJteVK0jE92c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85525668860-0gia122pmgl2ub600drsuj0f1tjlvq03.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

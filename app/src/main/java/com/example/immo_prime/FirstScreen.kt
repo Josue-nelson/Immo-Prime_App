@@ -20,12 +20,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.WhiteImo
 
 
 @Composable
-fun FirstSection(){
+fun FirstSection(
+    navController: NavController
+){
     Column (
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center
@@ -37,7 +41,9 @@ fun FirstSection(){
         )
         Spacer(modifier = Modifier.height(100.dp))
         Button(
-            onClick = { /* Navigation vers un autre écran */ },
+            onClick = {
+                      navController.navigate("register_screen")
+            },
             modifier = Modifier
                 .padding(12.dp)
                 .fillMaxWidth(),
@@ -69,7 +75,9 @@ fun FirstSection(){
                 style = TextStyle(
                     color = DarkBlueImo
                 ),
-                onClick = {/*Ramene vers un nouvelle ecran*/},
+                onClick = {
+                          navController.navigate("login_screen")
+                },
 
             )
         }
@@ -79,5 +87,6 @@ fun FirstSection(){
 @Preview(showBackground = true)
 @Composable
 fun FirstScreenPreview(){
-    FirstSection()
+    val navController = rememberNavController()
+    FirstSection(navController = navController)
 }

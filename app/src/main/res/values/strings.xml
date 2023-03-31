@@ -29,5 +29,5 @@
     <string name="username_placeholder">Entrer votre nom d\'utilisateur</string>
     <string name="soumettre">Soumettre</string>
     <string name="confirmpasswordlabel">Confirmer mot de passe</string>
-    <string name="confirmpasswordplaceholder">Entrez votre mot de passe a nouveau</string>
+    <string name="confirmpasswordplaceholder">Rentrez le mot de passe</string>
 </resources>

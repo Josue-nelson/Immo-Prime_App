@@ -1,5 +1,7 @@
 package com.example.immo_prime.Authentication
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,19 +15,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.immo_prime.R
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
 import com.example.immo_prime.ui.theme.WhiteImo
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
-fun RegisterScreen(){
+fun RegisterScreen(navController: NavController){
     Column(modifier = Modifier.fillMaxSize()) {
 
         Row(
@@ -33,7 +41,7 @@ fun RegisterScreen(){
             modifier = Modifier.padding(16.dp)
         ) {
             IconButton(
-                onClick = {  },
+                onClick = { navController.navigate("first_screen") },
                 modifier = Modifier.size(30.dp)
             ) {
                 Icon(
@@ -46,7 +54,8 @@ fun RegisterScreen(){
                 text = stringResource(id = R.string.back),
                 style = MaterialTheme.typography.button,
                 color = MaterialTheme.colors.onSurface,
-                modifier = Modifier.padding(start = 8.dp)
+                modifier = Modifier.padding(start = 8.dp),
+                fontSize = 20.sp
             )
         }
         
@@ -59,7 +68,8 @@ fun RegisterScreen(){
                 .fillMaxWidth() ) {
                 Text(
                     text = stringResource(R.string.entrez_vos_infos),
-                    fontSize = 30.sp
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -189,7 +199,7 @@ fun RegisterScreen(){
 
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
-                    onClick = { /* Navigation vers un autre écran */ },
+                    onClick = { createUser(email, password) },
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),
@@ -211,8 +221,30 @@ fun RegisterScreen(){
     }
 }
 
+fun createUser(
+    email: String,
+    password: String
+){
+    println("L'email est $email, et le mot de passe est $password")
+
+    val auth = Firebase.auth
+    try {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "createUserWithEmail:success")
+                } else {
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                }
+            }
+    } catch (e: Exception) {
+        println("Erreur : $e.message")
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview(){
-    RegisterScreen()
+    val navController = rememberNavController()
+    RegisterScreen(navController)
 }

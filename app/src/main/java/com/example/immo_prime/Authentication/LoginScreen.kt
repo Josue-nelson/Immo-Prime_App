@@ -32,6 +32,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.immo_prime.R
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
@@ -40,7 +42,7 @@ import com.example.immo_prime.ui.theme.WhiteImo
 
 
 @Composable
-fun LoginScreen(){
+fun LoginScreen(navController: NavController){
     Column (
         Modifier.fillMaxSize()
             ){
@@ -129,7 +131,7 @@ fun LoginScreen(){
 
             Row(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ){
@@ -140,16 +142,13 @@ fun LoginScreen(){
                     style = TextStyle(
                         color = DarkBlueImo
                     ),
-                    onClick = {/*Ramene vers un nouvelle ecran*/},
-
+                    onClick = { navController.navigate("register_screen") }
                     )
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = { /* Navigation vers un autre écran */ },
+                onClick = { println("Nothing") },
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = DarkBlueImo
@@ -164,7 +163,6 @@ fun LoginScreen(){
                     color = WhiteImo
                 )
             }
-            Spacer(modifier = Modifier.height(4.dp))
             GoogleButton(
                 text = stringResource(id = R.string.connect_with_google),
                 loadingText = stringResource(id = R.string.loading_connect),
@@ -241,5 +239,6 @@ fun GoogleButton(
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview(){
-    LoginScreen()
+    val navController = rememberNavController()
+    LoginScreen(navController = navController)
 }
