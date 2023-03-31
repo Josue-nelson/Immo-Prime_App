@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "444682971740",
+    "project_id": "crudfirestore-f597f",
+    "storage_bucket": "crudfirestore-f597f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444682971740:android:f1a9d9febe308280705499",
+        "android_client_info": {
+          "package_name": "training.androidkotlin.crudfirestore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444682971740-kav1im04qlf3hpdt7kt63egmdaj4h8ad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArZhOZNPTUEbQnkvK-0WR-AhxUTxulSzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "444682971740-kav1im04qlf3hpdt7kt63egmdaj4h8ad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
