@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHost
+import androidx.navigation.compose.NavHost
 import com.example.immo_prime.ui.theme.IMMOPRIMETheme
 
 class MainActivity : ComponentActivity() {
@@ -18,12 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             IMMOPRIMETheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-
-                }
+                FirstSection()
             }
         }
     }
