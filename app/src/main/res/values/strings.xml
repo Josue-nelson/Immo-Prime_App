@@ -9,7 +9,7 @@
     <string name="emailplaceholder">Entrer votre email</string>
     <string name="emaillabel">Email</string>
     <string name="passwordplaceholder">Entrer votre mot de passe</string>
-    <string name="passwordlabel">Password</string>
+    <string name="passwordlabel">Mot de passe</string>
     <string name="visibilityicon">Visibility Icon</string>
     <string name="emailicon">Icon email</string>
     <string name="creer">Creer</string>
@@ -28,4 +28,6 @@
     <string name="usernamelabel">Nom d\'utilisateur</string>
     <string name="username_placeholder">Entrer votre nom d\'utilisateur</string>
     <string name="soumettre">Soumettre</string>
+    <string name="confirmpasswordlabel">Confirmer mot de passe</string>
+    <string name="confirmpasswordplaceholder">Entrez votre mot de passe a nouveau</string>
 </resources>

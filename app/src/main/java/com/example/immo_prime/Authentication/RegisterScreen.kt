@@ -34,7 +34,7 @@ fun RegisterScreen(){
         ) {
             IconButton(
                 onClick = {  },
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(30.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
@@ -76,9 +76,15 @@ fun RegisterScreen(){
                 var username by remember { mutableStateOf("") }
                 var email by remember { mutableStateOf("") }
                 var password by rememberSaveable { mutableStateOf("") }
+                var confirmpassword by remember { mutableStateOf("") }
+                var confirmpasswordVisibility by remember { mutableStateOf(false) }
                 var passwordVisibility by remember { mutableStateOf(false) }
 
                 val icon = if (passwordVisibility)
+                    painterResource(id = R.drawable.password_eye)
+                else
+                    painterResource(id = R.drawable.baseline_visibility_off_24)
+                val icon2 = if (confirmpasswordVisibility)
                     painterResource(id = R.drawable.password_eye)
                 else
                     painterResource(id = R.drawable.baseline_visibility_off_24)
@@ -152,6 +158,35 @@ fun RegisterScreen(){
                         .fillMaxWidth()
                         .background(DarkGrayImo)
                 )
+
+                OutlinedTextField(
+                    value = confirmpassword,
+                    onValueChange = {
+                        confirmpassword = it
+                    },
+                    placeholder = { Text(text = stringResource(R.string.confirmpasswordplaceholder)) },
+                    label = { Text(text = stringResource(R.string.confirmpasswordlabel)) },
+                    trailingIcon = {
+                        IconButton(onClick = {
+                            confirmpasswordVisibility = !confirmpasswordVisibility
+                        }) {
+                            Icon(
+                                painter = icon2,
+                                contentDescription = stringResource(R.string.visibilityicon)
+                            )
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password
+                    ),
+                    visualTransformation = if (confirmpasswordVisibility) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                        .background(DarkGrayImo)
+                )
+
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     onClick = { /* Navigation vers un autre écran */ },
