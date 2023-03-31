@@ -28,7 +28,6 @@ import com.example.immo_prime.R
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
 import com.example.immo_prime.ui.theme.WhiteImo
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -83,7 +82,7 @@ fun RegisterScreen(navController: NavController){
                 )
             }
             Column( modifier = Modifier.fillMaxWidth() ) {
-                var username by remember { mutableStateOf("") }
+                //var username by remember { mutableStateOf("") }
                 var email by remember { mutableStateOf("") }
                 var password by rememberSaveable { mutableStateOf("") }
                 var confirmpassword by remember { mutableStateOf("") }
@@ -99,7 +98,7 @@ fun RegisterScreen(navController: NavController){
                 else
                     painterResource(id = R.drawable.baseline_visibility_off_24)
 
-                OutlinedTextField(
+                /*OutlinedTextField(
                     value = username,
                     onValueChange = {
                         username = it
@@ -118,7 +117,7 @@ fun RegisterScreen(navController: NavController){
                         .padding(16.dp)
                         .fillMaxWidth()
                         .background(DarkGrayImo)
-                )
+                )*/
 
                 OutlinedTextField(
                     value = email,
@@ -199,7 +198,13 @@ fun RegisterScreen(navController: NavController){
 
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
-                    onClick = { createUser(email, password) },
+                    onClick = {
+                       if(password == confirmpassword){
+                           createUser(email, password)
+                       } else {
+                           println("Les mots de passe sont pas identiques")
+                       }
+                    },
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),

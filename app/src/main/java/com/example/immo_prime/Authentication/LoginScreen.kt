@@ -3,6 +3,7 @@
 package com.example.immo_prime.Authentication
 
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -39,6 +40,8 @@ import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
 import com.example.immo_prime.ui.theme.Shapes
 import com.example.immo_prime.ui.theme.WhiteImo
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 @Composable
@@ -123,7 +126,7 @@ fun LoginScreen(navController: NavController){
                     color = DarkBlueImo,
                     textAlign = TextAlign.Left
                 ),
-                onClick = {/*Ramene vers un nouvelle ecran*/},
+                onClick = { },
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .fillMaxWidth()
@@ -146,7 +149,7 @@ fun LoginScreen(navController: NavController){
                     )
             }
             Button(
-                onClick = { println("Nothing") },
+                onClick = { login(email, password) },
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
@@ -232,6 +235,26 @@ fun GoogleButton(
                 onClicked()
             }
         }
+    }
+}
+
+fun login(
+    email: String,
+    password: String
+){
+    val auth = Firebase.auth
+    try {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful){
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithEmail:success")
+                } else{
+                    Log.w(TAG, "signInWithEmail:failure", task.exception)
+                }
+            }
+    } catch (e: Exception){
+        println(e.message)
     }
 }
 
