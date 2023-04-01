@@ -229,7 +229,7 @@ fun RegisterScreen(navController: NavController){
 fun createUser(
     email: String,
     password: String
-){
+) {
     println("L'email est $email, et le mot de passe est $password")
 
     val auth = Firebase.auth
