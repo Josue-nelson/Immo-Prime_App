@@ -200,7 +200,7 @@ fun RegisterScreen(navController: NavController){
                 Button(
                     onClick = {
                        if(password == confirmpassword){
-                           createUser(email, password)
+                           createUser(email, password, navController)
                        } else {
                            println("Les mots de passe sont pas identiques")
                        }
@@ -228,7 +228,8 @@ fun RegisterScreen(navController: NavController){
 
 fun createUser(
     email: String,
-    password: String
+    password: String,
+    navController: NavController
 ) {
     println("L'email est $email, et le mot de passe est $password")
 
@@ -238,6 +239,7 @@ fun createUser(
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail:success")
+                    navController.navigate("login_screen")
                 } else {
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
                 }
