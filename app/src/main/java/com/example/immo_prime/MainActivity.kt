@@ -1,5 +1,6 @@
 package com.example.immo_prime
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,11 +21,11 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 val navController = rememberNavController()
 
-                NavHost(navController = navController, startDestination = "splash_screen", builder = {
-                    composable("splash_screen", content = { SplashScreen(navController = navController) })
+                NavHost(navController = navController, startDestination = "first_screen", builder = {
                     composable("first_screen", content = { FirstSection(navController = navController) })
                     composable("login_screen", content = { LoginScreen(navController =   navController) })
                     composable("register_screen", content = { RegisterScreen(navController = navController) })
+                    composable("home_screen", content = {HomeScreen(navController=navController)})
                 })
             }
         }

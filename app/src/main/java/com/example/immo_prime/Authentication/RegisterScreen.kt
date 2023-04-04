@@ -200,7 +200,7 @@ fun RegisterScreen(navController: NavController){
                 Button(
                     onClick = {
                        if(password == confirmpassword){
-                           createUser(email, password, navController)
+                           createUser(email, password , navController)
                        } else {
                            println("Les mots de passe sont pas identiques")
                        }
@@ -230,7 +230,8 @@ fun createUser(
     email: String,
     password: String,
     navController: NavController
-) {
+
+){
     println("L'email est $email, et le mot de passe est $password")
 
     val auth = Firebase.auth
@@ -239,7 +240,9 @@ fun createUser(
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail:success")
-                    navController.navigate("login_screen")
+                    navController.navigate("login_screen") // naviguer vers la page de connexion
+
+
                 } else {
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
                 }

@@ -149,7 +149,7 @@ fun LoginScreen(navController: NavController){
                     )
             }
             Button(
-                onClick = { login(email, password) },
+                onClick = { login(email, password , navController) },
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
@@ -240,7 +240,9 @@ fun GoogleButton(
 
 fun login(
     email: String,
-    password: String
+    password: String,
+    navController: NavController
+
 ){
     val auth = Firebase.auth
     try {
@@ -249,6 +251,9 @@ fun login(
                 if (task.isSuccessful){
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success")
+                    navController.navigate("home_screen") // naviguer vers la page de connexion
+
+
                 } else{
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
                 }
