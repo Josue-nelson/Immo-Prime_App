@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">IMMO-PRIME</string>
+    <string name="inscription">S\'inscrire</string>
+    <string name="avoircompte">Vous avez dejas un compte ?</string>
+    <string name="connexion">Connexion</string>
+    <string name="imgbg">Image de background du login</string>
+    <string name="Connexion">Sign In</string>
+    <string name="imgLog">image Login</string>
+    <string name="emailplaceholder">Entrer votre email</string>
+    <string name="emaillabel">Email</string>
+    <string name="passwordplaceholder">Entrer votre mot de passe</string>
+    <string name="passwordlabel">Mot de passe</string>
+    <string name="visibilityicon">Visibility Icon</string>
+    <string name="emailicon">Icon email</string>
+    <string name="creer">Creer</string>
+    <string name="mot_passe_oublie">Mot de passe ?</string>
+    <string name="google_button">Google button</string>
+    <string name="connect_with_google">Se connecter avec Google</string>
+    <string name="loading_connect">Connexion en cours...</string>
+    <string name="back_icon">Back icon</string>
+    <string name="back">Retour</string>
+    <string name="proprietaire">Propriétaire</string>
+    <string name="client">Client</string>
+    <string name="entrez_vos_infos">Entrez vos infos</string>
+    <string name="description_text">Saisissez votre adresse email pour recevoir
+        votre mot de passe dans votre boite mail</string>
+    <string name="personicon">Icon person</string>
+    <string name="usernamelabel">Nom d\'utilisateur</string>
+    <string name="username_placeholder">Entrer votre nom d\'utilisateur</string>
+    <string name="soumettre">Soumettre</string>
+    <string name="confirmpasswordlabel">Confirmer mot de passe</string>
+    <string name="confirmpasswordplaceholder">Rentrez le mot de passe</string>
+</resources>
