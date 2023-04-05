@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">IMMO-PRIME</string>
     <string name="inscription">S\'inscrire</string>
-    <string name="avoircompte">Vous avez dejas un compte ?</string>
+    <string name="avoircompte">Vous avez deja un compte?</string>
     <string name="connexion">Connexion</string>
     <string name="imgbg">Image de background du login</string>
     <string name="Connexion">Sign In</string>
@@ -18,7 +18,7 @@
     <string name="connect_with_google">Se connecter avec Google</string>
     <string name="loading_connect">Connexion en cours...</string>
     <string name="back_icon">Back icon</string>
-    <string name="back">Back</string>
+    <string name="back">Retour</string>
     <string name="proprietaire">Propriétaire</string>
     <string name="client">Client</string>
     <string name="entrez_vos_infos">Entrez vos infos</string>
@@ -30,4 +30,5 @@
     <string name="soumettre">Soumettre</string>
     <string name="confirmpasswordlabel">Confirmer mot de passe</string>
     <string name="confirmpasswordplaceholder">Rentrez le mot de passe</string>
+    <string name="ne_pas_avoir_compte">Vous n\'avez pas de compte?</string>
 </resources>

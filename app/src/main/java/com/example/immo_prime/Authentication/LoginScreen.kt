@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
+@file:OptIn(ExperimentalMaterialApi::class)
 
 package com.example.immo_prime.Authentication
 
@@ -47,8 +47,10 @@ import com.google.firebase.ktx.Firebase
 @Composable
 fun LoginScreen(navController: NavController){
     Column (
-        Modifier.fillMaxSize()
-            ){
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ){
         Image(
             painter = painterResource(id = R.drawable.login),
             contentDescription = stringResource(R.string.imgLog),
@@ -56,7 +58,7 @@ fun LoginScreen(navController: NavController){
                 .height(300.dp)
                 .fillMaxWidth()
                 .background(DarkBlueImo)
-          )
+        )
         Column(
             Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -65,12 +67,13 @@ fun LoginScreen(navController: NavController){
             var email by remember { mutableStateOf("") }
             var password by rememberSaveable { mutableStateOf("") }
             var passwordVisibility by remember { mutableStateOf(false) }
-            
+            var showMessage by remember { mutableStateOf(false) }
+
             val icon = if (passwordVisibility)
                 painterResource(id = R.drawable.password_eye)
-            else 
+            else
                 painterResource(id = R.drawable.baseline_visibility_off_24)
-            
+
             OutlinedTextField(
                 value = email,
                 onValueChange = {
@@ -130,7 +133,7 @@ fun LoginScreen(navController: NavController){
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .fillMaxWidth()
-                )
+            )
 
             Row(
                 modifier = Modifier
@@ -138,7 +141,7 @@ fun LoginScreen(navController: NavController){
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ){
-                Text(text = stringResource(id = R.string.avoircompte), modifier = Modifier.padding(8.dp))
+                Text(text = stringResource(id = R.string.ne_pas_avoir_compte), modifier = Modifier.padding(8.dp))
                 ClickableText(
                     text = AnnotatedString(stringResource(R.string.creer)),
                     modifier = Modifier.padding(8.dp),
@@ -146,10 +149,24 @@ fun LoginScreen(navController: NavController){
                         color = DarkBlueImo
                     ),
                     onClick = { navController.navigate("register_screen") }
-                    )
+                )
             }
             Button(
-                onClick = { login(email, password , navController) },
+                onClick = {
+                    val auth = Firebase.auth
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            showMessage = if (task.isSuccessful) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithEmail:success")
+                                navController.navigate("home_screen") // naviguer vers la page de connexion
+                                false
+                            } else {
+                                Log.w(TAG, "signInWithEmail:failure", task.exception)
+                                true
+                            }
+                        }
+                },
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
@@ -173,11 +190,31 @@ fun LoginScreen(navController: NavController){
                     Log.d("Boutton Google", "Cliquer")
                 }
             )
+            if (showMessage) {
+                AlertDialog(
+                    onDismissRequest = { showMessage = false },
+                    title = { Text("Authentification invalide") },
+                    text = {
+                            Text("Email ou mot de passe incorrect")
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = { showMessage = false },
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = DarkBlueImo
+                            )
+                        ) {
+                            Text("OK")
+                        }
+                    }
+                )
+            }
         }
     }
 }
 
 
+@ExperimentalMaterialApi
 @Composable
 fun GoogleButton(
     text: String = stringResource(id = R.string.connect_with_google),
@@ -237,32 +274,6 @@ fun GoogleButton(
         }
     }
 }
-
-fun login(
-    email: String,
-    password: String,
-    navController: NavController
-
-){
-    val auth = Firebase.auth
-    try {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful){
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithEmail:success")
-                    navController.navigate("home_screen") // naviguer vers la page de connexion
-
-
-                } else{
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-                }
-            }
-    } catch (e: Exception){
-        println(e.message)
-    }
-}
-
 
 @Preview(showBackground = true)
 @Composable

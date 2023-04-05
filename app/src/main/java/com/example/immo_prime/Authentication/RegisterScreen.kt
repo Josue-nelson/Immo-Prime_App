@@ -2,6 +2,7 @@ package com.example.immo_prime.Authentication
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import android.util.Patterns
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,12 +14,14 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,7 +36,7 @@ import com.google.firebase.ktx.Firebase
 
 @Composable
 fun RegisterScreen(navController: NavController){
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -88,6 +91,8 @@ fun RegisterScreen(navController: NavController){
                 var confirmpassword by remember { mutableStateOf("") }
                 var confirmpasswordVisibility by remember { mutableStateOf(false) }
                 var passwordVisibility by remember { mutableStateOf(false) }
+                var isButtonEnabled by remember { mutableStateOf(false) }
+                var passwordError by remember { mutableStateOf(false) }
 
                 val icon = if (passwordVisibility)
                     painterResource(id = R.drawable.password_eye)
@@ -97,6 +102,10 @@ fun RegisterScreen(navController: NavController){
                     painterResource(id = R.drawable.password_eye)
                 else
                     painterResource(id = R.drawable.baseline_visibility_off_24)
+
+                val isPasswordValid = password.isNotBlank() && password == confirmpassword && password.length > 6
+                val isEmailValid = email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                isButtonEnabled = isPasswordValid && isEmailValid
 
                 /*OutlinedTextField(
                     value = username,
@@ -144,6 +153,7 @@ fun RegisterScreen(navController: NavController){
                     value = password,
                     onValueChange = {
                         password = it
+                        passwordError = it.length < 6
                     },
                     placeholder = { Text(text = stringResource(R.string.passwordplaceholder)) },
                     label = { Text(text = stringResource(R.string.passwordlabel)) },
@@ -167,6 +177,15 @@ fun RegisterScreen(navController: NavController){
                         .fillMaxWidth()
                         .background(DarkGrayImo)
                 )
+                if (passwordError) {
+                    Text(
+                        text = "Le mot de passe doit contenir au moins 6 caractères",
+                        color = Color.Red,
+                        fontSize = 12.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
 
                 OutlinedTextField(
                     value = confirmpassword,
@@ -199,12 +218,9 @@ fun RegisterScreen(navController: NavController){
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     onClick = {
-                       if(password == confirmpassword){
                            createUser(email, password , navController)
-                       } else {
-                           println("Les mots de passe sont pas identiques")
-                       }
                     },
+                    enabled = isButtonEnabled,
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),
@@ -216,7 +232,6 @@ fun RegisterScreen(navController: NavController){
                     Text(
                         text = stringResource(R.string.soumettre),
                         modifier = Modifier
-                            .background(DarkBlueImo)
                             .padding(vertical = 8.dp),
                         color = WhiteImo
                     )
