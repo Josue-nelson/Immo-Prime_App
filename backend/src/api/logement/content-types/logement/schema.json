@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "logements",
+  "info": {
+    "singularName": "logement",
+    "pluralName": "logements",
+    "displayName": "Logement"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Prix": {
+      "type": "integer"
+    },
+    "Ville": {
+      "type": "string"
+    },
+    "Quartier": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "string"
+    }
+  }
+}

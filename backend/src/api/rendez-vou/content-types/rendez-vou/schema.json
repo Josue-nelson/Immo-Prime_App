@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rendez_vous",
+  "info": {
+    "singularName": "rendez-vou",
+    "pluralName": "rendez-vous",
+    "displayName": "Rendez_vous"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Date": {
+      "type": "date"
+    }
+  }
+}
