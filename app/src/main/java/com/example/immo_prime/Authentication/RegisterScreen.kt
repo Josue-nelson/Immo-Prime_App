@@ -35,15 +35,15 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 @Composable
-fun RegisterScreen(navController: NavController){
+fun RegisterScreen(navController: NavController){ // Ecran d'inscription
     Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
 
         Row(
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,// Disposition des elements dans une row
             modifier = Modifier.padding(16.dp)
         ) {
             IconButton(
-                onClick = { navController.navigate("first_screen") },
+                onClick = { navController.navigate("first_screen") },// Navigation vers le premier ecran
                 modifier = Modifier.size(30.dp)
             ) {
                 Icon(
@@ -60,7 +60,7 @@ fun RegisterScreen(navController: NavController){
                 fontSize = 20.sp
             )
         }
-        
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -85,17 +85,22 @@ fun RegisterScreen(navController: NavController){
                 )
             }
             Column( modifier = Modifier.fillMaxWidth() ) {
+                /**
+                 * Dans cette partie le principe est le meme que pour le "LoginScreen" mais y'a une difference
+                 * la verification est plus stricte et le bouton de validation restera desactiver tant que l'utilisateur n'aura
+                 * pas entrer les elements correct
+                 * */
                 //var username by remember { mutableStateOf("") }
                 var email by remember { mutableStateOf("") }
                 var password by rememberSaveable { mutableStateOf("") }
                 var confirmpassword by remember { mutableStateOf("") }
                 var confirmpasswordVisibility by remember { mutableStateOf(false) }
                 var passwordVisibility by remember { mutableStateOf(false) }
-                var isButtonEnabled by remember { mutableStateOf(false) }
-                var passwordError by remember { mutableStateOf(false) }
+                var isButtonEnabled by remember { mutableStateOf(false) } // Rendre le bouton touchable "false" par default
+                var passwordError by remember { mutableStateOf(false) } // Cela conserne le champs de texte que s'active si les criteres de mot de passe n'est pas remplit
 
                 val icon = if (passwordVisibility)
-                    painterResource(id = R.drawable.password_eye)
+                    painterResource(id = R.drawable.password_eye) // Meme principe expliquer dans le loginScreen
                 else
                     painterResource(id = R.drawable.baseline_visibility_off_24)
                 val icon2 = if (confirmpasswordVisibility)
@@ -103,9 +108,9 @@ fun RegisterScreen(navController: NavController){
                 else
                     painterResource(id = R.drawable.baseline_visibility_off_24)
 
-                val isPasswordValid = password.isNotBlank() && password == confirmpassword && password.length > 6
-                val isEmailValid = email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-                isButtonEnabled = isPasswordValid && isEmailValid
+                val isPasswordValid = password.isNotBlank() && password == confirmpassword && password.length > 6 // On definit que le mot de passe est valide si les criters suivant sont remplit
+                val isEmailValid = email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches() // On se sert de la syntaxe par defaut d'u email
+                isButtonEnabled = isPasswordValid && isEmailValid // Le bouton est activer si le les conditions suivantes sont a "true"
 
                 /*OutlinedTextField(
                     value = username,
@@ -145,8 +150,13 @@ fun RegisterScreen(navController: NavController){
                     },
                     modifier = Modifier
                         .padding(16.dp)
-                        .fillMaxWidth()
-                        .background(DarkGrayImo)
+                        .fillMaxWidth(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = DarkGrayImo,
+                        cursorColor = DarkBlueImo,
+                        focusedLabelColor = DarkBlueImo,
+                        focusedIndicatorColor = DarkBlueImo
+                    )
                 )
 
                 OutlinedTextField(
@@ -174,8 +184,13 @@ fun RegisterScreen(navController: NavController){
                     else PasswordVisualTransformation(),
                     modifier = Modifier
                         .padding(16.dp)
-                        .fillMaxWidth()
-                        .background(DarkGrayImo)
+                        .fillMaxWidth(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = DarkGrayImo,
+                        cursorColor = DarkBlueImo,
+                        focusedLabelColor = DarkBlueImo,
+                        focusedIndicatorColor = DarkBlueImo
+                    )
                 )
                 if (passwordError) {
                     Text(
@@ -211,8 +226,13 @@ fun RegisterScreen(navController: NavController){
                     else PasswordVisualTransformation(),
                     modifier = Modifier
                         .padding(16.dp)
-                        .fillMaxWidth()
-                        .background(DarkGrayImo)
+                        .fillMaxWidth(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = DarkGrayImo,
+                        cursorColor = DarkBlueImo,
+                        focusedLabelColor = DarkBlueImo,
+                        focusedIndicatorColor = DarkBlueImo
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -241,7 +261,7 @@ fun RegisterScreen(navController: NavController){
     }
 }
 
-fun createUser(
+fun createUser( // Cette fonction envoie les données ecrit dans le FireStore d'authentification
     email: String,
     password: String,
     navController: NavController
@@ -251,7 +271,7 @@ fun createUser(
 
     val auth = Firebase.auth
     try {
-        auth.createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email, password) // On prend L'email et le mot de passe
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail:success")

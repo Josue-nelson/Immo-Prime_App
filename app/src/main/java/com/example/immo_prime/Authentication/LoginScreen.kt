@@ -8,9 +8,7 @@ import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -44,37 +42,41 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun LoginScreen(navController: NavController){
+fun LoginScreen(navController: NavController){ // Ecran de connexion de l'application
     Column (
         Modifier
-            .fillMaxSize()
-            .background(Color.White)
+            .fillMaxSize() // Remplit tout l'ecran
+            .background(Color.White) // Couleur de fond de l'ecran
     ){
-        Image(
+        Image( // Image d'entete
             painter = painterResource(id = R.drawable.login),
             contentDescription = stringResource(R.string.imgLog),
             modifier = Modifier
-                .height(300.dp)
-                .fillMaxWidth()
-                .background(DarkBlueImo)
+                .height(300.dp) // Definition de la hauteur
+                .fillMaxWidth() // Remplir toutes la largeur de l'ecran
+                .background(DarkBlueImo) // Background DarkBleu
         )
         Column(
-            Modifier.fillMaxSize(),
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()/*Rendre l'elements Column Scrollable*/),// Dispostion des elements
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            var email by remember { mutableStateOf("") }
-            var password by rememberSaveable { mutableStateOf("") }
-            var passwordVisibility by remember { mutableStateOf(false) }
-            var showMessage by remember { mutableStateOf(false) }
+            var email by remember { mutableStateOf("") } // Variable qui vas contenir les valeurs du champs email
+            var password by rememberSaveable { mutableStateOf("") } // Variable qui vas contenir les valeurs du champs mot de passe
+            var passwordVisibility by remember { mutableStateOf(false) } // Visibilite du champ "mot de passe" mit en false par defaut
+            var showMessage by remember { mutableStateOf(false) } // Etat de la boite d'alerte (cacher par defaut)
+            var message by remember { mutableStateOf("") } // Le contenue de la boite d'alerte
 
-            val icon = if (passwordVisibility)
-                painterResource(id = R.drawable.password_eye)
+            val icon = if (passwordVisibility) // Gerer l'etat de l'icon de l'oeil
+                painterResource(id = R.drawable.password_eye) // si le passwordVisibility est sur true
             else
-                painterResource(id = R.drawable.baseline_visibility_off_24)
+                painterResource(id = R.drawable.baseline_visibility_off_24) // Si le passwordvisibility est sur false
 
-            OutlinedTextField(
+            OutlinedTextField( // Champs email
                 value = email,
                 onValueChange = {
                     email = it
@@ -91,11 +93,16 @@ fun LoginScreen(navController: NavController){
                 },
                 modifier = Modifier
                     .padding(16.dp)
-                    .fillMaxWidth()
-                    .background(DarkGrayImo)
+                    .fillMaxWidth(),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = DarkGrayImo,
+                    cursorColor = DarkBlueImo,
+                    focusedLabelColor = DarkBlueImo,
+                    focusedIndicatorColor = DarkBlueImo
+                    )
             )
 
-            OutlinedTextField(
+            OutlinedTextField( // Champ mot de passe
                 value = password,
                 onValueChange = {
                     password = it
@@ -119,11 +126,16 @@ fun LoginScreen(navController: NavController){
                 else PasswordVisualTransformation(),
                 modifier = Modifier
                     .padding(16.dp)
-                    .fillMaxWidth()
-                    .background(DarkGrayImo)
+                    .fillMaxWidth(),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = DarkGrayImo,
+                    cursorColor = DarkBlueImo,
+                    focusedLabelColor = DarkBlueImo,
+                    focusedIndicatorColor = DarkBlueImo
+                )
             )
 
-            ClickableText(
+            ClickableText( // TExte clickable
                 text = AnnotatedString(stringResource(R.string.mot_passe_oublie)),
                 style = TextStyle(
                     color = DarkBlueImo,
@@ -153,19 +165,26 @@ fun LoginScreen(navController: NavController){
             }
             Button(
                 onClick = {
-                    val auth = Firebase.auth
-                    auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            showMessage = if (task.isSuccessful) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "signInWithEmail:success")
-                                navController.navigate("home_screen") // naviguer vers la page de connexion
-                                false
-                            } else {
-                                Log.w(TAG, "signInWithEmail:failure", task.exception)
-                                true
+                    try {
+                        val auth = Firebase.auth
+                        auth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                showMessage = if (task.isSuccessful) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "signInWithEmail:success")
+                                    navController.navigate("home_screen") // naviguer vers la page de connexion
+                                    false
+                                } else {
+                                    Log.w(TAG, "signInWithEmail:failure", task.exception)
+                                    message = task.exception.toString()
+                                    true
+                                }
                             }
-                        }
+                    } catch (e: Exception){
+                        println(e.message)
+                        message = e.message.toString()
+                        showMessage = true
+                    }
                 },
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -195,7 +214,7 @@ fun LoginScreen(navController: NavController){
                     onDismissRequest = { showMessage = false },
                     title = { Text("Authentification invalide") },
                     text = {
-                            Text("Email ou mot de passe incorrect")
+                       Text(message)
                     },
                     confirmButton = {
                         Button(
@@ -212,8 +231,7 @@ fun LoginScreen(navController: NavController){
         }
     }
 }
-
-
+// Sa c'Est le bouton Google
 @ExperimentalMaterialApi
 @Composable
 fun GoogleButton(

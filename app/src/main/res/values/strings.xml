@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">IMMO-PRIME</string>
     <string name="inscription">S\'inscrire</string>
-    <string name="avoircompte">Vous avez deja un compte?</string>
+    <string name="avoircompte">Vous avez déjà un compte?</string>
     <string name="connexion">Connexion</string>
     <string name="imgbg">Image de background du login</string>
     <string name="Connexion">Sign In</string>
@@ -23,7 +23,7 @@
     <string name="client">Client</string>
     <string name="entrez_vos_infos">Entrez vos infos</string>
     <string name="description_text">Saisissez votre adresse email pour recevoir
-        votre mot de passe dans votre boite mail</string>
+        un email de confirmation dans votre boite mail</string>
     <string name="personicon">Icon person</string>
     <string name="usernamelabel">Nom d\'utilisateur</string>
     <string name="username_placeholder">Entrer votre nom d\'utilisateur</string>

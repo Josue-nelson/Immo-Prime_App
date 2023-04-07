@@ -1,5 +1,5 @@
-# SIMPLE LOGIN UI - JETPACK COMPOSE
-## A Simple Android Login UI Application using Jetpack Compose
+# APPLICATION IMMO-PRIME 
+## Application de location de biens immobilier
 
 ## LIBRARIES
 
