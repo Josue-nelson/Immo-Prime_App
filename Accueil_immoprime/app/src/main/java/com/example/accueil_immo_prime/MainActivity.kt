@@ -8,7 +8,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -45,6 +44,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -62,16 +62,15 @@ fun MyScreen() {
                     modifier = Modifier
                         .padding(16.dp)
                         .background(color = Color.Transparent)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+
                 ) {
-                    IconButton(onClick = { /* Do something */ }) {
-                        Icon(Icons.Filled.Person, "Profile")
-                    }
+                    Image(painter = painterResource(id = R.drawable.logo), contentDescription ="",Modifier.size(50.dp))
 
                     Spacer(modifier = Modifier.weight(1f))
 
                     IconButton(onClick = { /* Do something */ }) {
-                        Icon(Icons.Filled.Favorite, "Application logo")
+                        Icon(Icons.Filled.Person, "Profile")
                     }
                 }
             }
@@ -80,7 +79,8 @@ fun MyScreen() {
             Column(modifier = Modifier.verticalScroll(scrollState)) {
                 HeaderWithImage()
                 HorizontalImageList()
-                CardWithImageAndText()
+                HorizontalImageList2()
+
                 CardWithImageAndText()
                 NavigationBar()
 
@@ -141,8 +141,6 @@ fun ParallaxTopAppBar(
 }
 
 
-
-
 @Composable
 fun HeaderWithImage() {
     Box(
@@ -151,47 +149,40 @@ fun HeaderWithImage() {
             .fillMaxWidth()
     ){
         Image(
-            painter = painterResource(R.drawable.house1),
+            painter = painterResource(R.drawable.house2),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
             contentScale = ContentScale.Crop
         )
-        Button(
-            onClick = { /* Do something */ },
-            shape = CircleShape,
-            modifier = Modifier
-                .height(32.dp)
-                .align(Alignment.Center)
 
-        ){
-            Text(
-                "But Now"
-            )
-        }
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .offset(20.dp)
-                .padding(vertical = 8.dp)
+                .padding(vertical = 4.dp)
+                .fillMaxWidth()
                 //.background(Color.Gray, shape = RoundedCornerShape(4.dp))
 
         ) {
             Text(
                 text = "Dicover Your Favorite House",
-                modifier = Modifier.padding(vertical = 8.dp),
-                style = TextStyle(fontSize = 24.sp),
+                modifier = Modifier.padding(vertical = 5.dp),
+                style = TextStyle(fontSize = 34.sp),
+                color = Color.Black,
+
+
             )
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .border(1.dp, Color.Gray, shape = RoundedCornerShape(16.dp)),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 16.dp, vertical = 80.dp),
+               // .border(1.dp, Color.Gray, shape = RoundedCornerShape(16.dp)),
+            verticalAlignment = Alignment.Bottom,
         ) {
-            OutlinedTextField(
+            TextField(
 
                 value = "",
                 onValueChange = {  },
@@ -225,9 +216,10 @@ fun HousePurchaseCard() {
             )
 
             Text(
-                text = "50.000f                         For Sale",
+                text = "50.000f",
                 style = MaterialTheme.typography.h5,
                 modifier = Modifier.padding(16.dp)
+                    .padding(end = 5.dp)
             )
 
             Text(
@@ -248,6 +240,25 @@ fun HorizontalImageList() {
         ImageWithText(R.drawable.house4, "Titre 2"),
         ImageWithText(R.drawable.house3, "Titre 3")
     )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 15.dp),
+
+        verticalAlignment = Alignment.Bottom,
+    ){
+        Text(
+            text = "The House You May Buy",
+            textAlign = TextAlign.Left,
+            fontSize = 30.sp,
+
+            color=Color.Black,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 5.dp)
+        )
+    }
 
     LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
         items(images) { item ->
@@ -257,7 +268,7 @@ fun HorizontalImageList() {
                     .padding(16.dp),
                 elevation = 8.dp,
                 onClick = {},
-                shape = RoundedCornerShape(16.dp)
+                //shape = RoundedCornerShape(16.dp)
             ) {
                 Column(modifier = Modifier.width(200.dp)) {
 
@@ -268,39 +279,50 @@ fun HorizontalImageList() {
                         modifier = Modifier
                             .height(180.dp)
                             .fillMaxWidth()
-                            .clip(shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
-                        contentScale = ContentScale.Crop
+                        //.clip(shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+                        // contentScale = ContentScale.Crop
                     )
                     Text(
                         text = "Appartement",
                         textAlign = TextAlign.Left,
-                        fontSize = 16.sp,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 10.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp, horizontal = 10.dp)
                     )
                     Text(
                         text="For Sale",
                         color = Color.Blue,
                         fontSize = 10.sp,
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 10.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 5.dp, horizontal = 10.dp)
 
 
                     )
                     Text(
+                        text = "Appartemenent a louer situer a douala-logbessou",
+                        textAlign = TextAlign.Left,
+                        fontSize = 14.sp,
+                        color=Color.Gray,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 5.dp, horizontal = 10.dp)
+                    )
+                    Text(
                         text="50.000f",
                         color = Color.Black,
-                        fontSize = 14.sp,
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 10.dp)
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 5.dp)
+                            .padding(vertical = 5.dp, horizontal = 10.dp)
 
 
                     )
-                    Button(
-                        onClick = { /* Do something */ },
 
-                        modifier = Modifier.fillMaxWidth().background(Color.Transparent),
-                    ) {
-                        Text(text = "Detail")
-                    }
                 }
             }
         }
@@ -311,6 +333,25 @@ data class ImageWithText(val image: Int, val title: String)
 
 @Composable
 fun CardWithImageAndText() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 15.dp),
+
+        verticalAlignment = Alignment.Bottom,
+    ){
+        Text(
+            text = "Similar Home you may like",
+            textAlign = TextAlign.Left,
+            fontSize = 30.sp,
+
+            color=Color.Black,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 5.dp)
+        )
+    }
     Card(
         modifier = Modifier
             .padding(16.dp)
@@ -331,7 +372,9 @@ fun CardWithImageAndText() {
                 textAlign = TextAlign.Left,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
             )
             Text(
                 text="For Sale",
@@ -351,6 +394,149 @@ fun CardWithImageAndText() {
             )
             Button(onClick = { /* Do something */ }, modifier = Modifier.align(Alignment.End)) {
                 Text("Read More")
+            }
+        }
+    }
+    Card(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        elevation = 8.dp
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Image(
+                painter = painterResource(R.drawable.houseback),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text = "Appartement",
+                textAlign = TextAlign.Left,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+            Text(
+                text="For Sale",
+                color = Color.Blue,
+                fontSize = 10.sp,
+                modifier = Modifier.padding(vertical = 2.dp)
+
+
+            )
+            Text(
+                text="50.000f",
+                color = Color.Black,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(vertical = 3.dp).padding(end = 5.dp)
+
+
+
+            )
+            Button(onClick = { /* Do something */ }, modifier = Modifier.align(Alignment.End)) {
+                Text("Read More")
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun HorizontalImageList2() {
+    val images = listOf(
+        ImageWithText(R.drawable.house3, "Titre 1"),
+        ImageWithText(R.drawable.house4, "Titre 2"),
+        ImageWithText(R.drawable.house3, "Titre 3")
+    )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 15.dp),
+
+        verticalAlignment = Alignment.Bottom,
+    ){
+        Text(
+            text = "Similar House You May Location",
+            textAlign = TextAlign.Left,
+            fontSize = 30.sp,
+
+            color=Color.Black,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 5.dp)
+        )
+    }
+
+    LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
+        items(images) { item ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                elevation = 8.dp,
+                onClick = {},
+                //shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(modifier = Modifier.width(200.dp)) {
+
+                    Image(
+
+                        painterResource(id = R.drawable.house4),
+                        contentDescription = "Appartemenent a louer situer a douala-logbessou",
+                        modifier = Modifier
+                            .height(180.dp)
+                            .fillMaxWidth()
+                        //.clip(shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+                        // contentScale = ContentScale.Crop
+                    )
+                    Text(
+                        text = "Appartement",
+                        textAlign = TextAlign.Left,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp, horizontal = 10.dp)
+                    )
+                    Text(
+                        text="Location",
+                        color = Color.Blue,
+                        fontSize = 10.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 5.dp, horizontal = 10.dp)
+
+
+                    )
+                    Text(
+                        text = "Appartemenent a louer situer a douala-logbessou",
+                        textAlign = TextAlign.Left,
+                        fontSize = 14.sp,
+                        color = Color.DarkGray,
+
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 5.dp, horizontal = 10.dp)
+                    )
+                    Text(
+                        text="1.000.000f",
+                        color = Color.Black,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 5.dp, horizontal = 10.dp)
+
+
+                    )
+
+                }
             }
         }
     }
