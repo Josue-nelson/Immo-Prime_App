@@ -139,7 +139,7 @@ fun MysScreen() {
                 onClick = {}
             )
             BottomNavigationItem(
-                icon = { Icon(Icons.Filled.ShoppingBasket, contentDescription = null) },
+                icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = null) },
                 //label = { Text("Market") },
                 selected = false,
                 onClick = {}
