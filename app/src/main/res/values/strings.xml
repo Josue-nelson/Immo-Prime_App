@@ -31,4 +31,6 @@
     <string name="confirmpasswordlabel">Confirmer mot de passe</string>
     <string name="confirmpasswordplaceholder">Rentrez le mot de passe</string>
     <string name="ne_pas_avoir_compte">Vous n\'avez pas de compte?</string>
+    <string name="register_with_google">S\'inscrire avec google</string>
+    <string name="inscription_cours">Inscription en cours...</string>
 </resources>

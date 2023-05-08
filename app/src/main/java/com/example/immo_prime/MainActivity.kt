@@ -29,6 +29,8 @@ class MainActivity : ComponentActivity() {
                     composable("login_screen", content = { LoginScreen(navController =   navController) })
                     composable("register_screen", content = { RegisterScreen(navController = navController) })
                     composable("home_screen", content = { HomeScreen(navController=navController) })
+                    composable("choice_account", content = { ChoiceAccountType(navController = navController) })
+                    composable("detail_screen" , content={ DetailScreen(navController=navController)})
                 },
                 modifier = Modifier.background(Color.White)
                 )

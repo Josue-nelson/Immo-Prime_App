@@ -34,6 +34,7 @@ import com.example.immo_prime.ui.theme.WhiteImo
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RegisterScreen(navController: NavController){ // Ecran d'inscription
     Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
@@ -242,7 +243,7 @@ fun RegisterScreen(navController: NavController){ // Ecran d'inscription
                     },
                     enabled = isButtonEnabled,
                     modifier = Modifier
-                        .padding(16.dp)
+                        .padding(top = 16.dp, start = 16.dp, end = 16.dp)
                         .fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = DarkBlueImo
@@ -256,6 +257,13 @@ fun RegisterScreen(navController: NavController){ // Ecran d'inscription
                         color = WhiteImo
                     )
                 }
+                GoogleButton(
+                    text = stringResource(R.string.register_with_google),
+                    loadingText = stringResource(R.string.inscription_cours),
+                    onClicked = {
+                        Log.d("Boutton Google", "Cliquer")
+                    }
+                )
             }
         }
     }

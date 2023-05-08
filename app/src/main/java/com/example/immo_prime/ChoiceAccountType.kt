@@ -1,5 +1,6 @@
 package com.example.immo_prime
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,19 +13,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
 import com.example.immo_prime.ui.theme.Shapes
 import com.example.immo_prime.ui.theme.WhiteImo
 
 @Composable
-fun ChoiceAccountType(){
+fun ChoiceAccountType(navController: NavController){
     Column(
         Modifier.fillMaxSize()
     ) {
         var clicked by  remember { mutableStateOf(false) }
+        var accountType by remember { mutableStateOf("") }
         Button(
-            onClick = { clicked != clicked },
+            onClick = {
+                accountType = "Client"
+                Log.i(accountType, "account type : ")
+                navController.navigate("login_screen")
+                },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
@@ -43,7 +51,11 @@ fun ChoiceAccountType(){
             )
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                      accountType = "Proprietaire"
+                Log.i(accountType, "account type : ")
+                navController.navigate("login_screen")
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
@@ -63,5 +75,6 @@ fun ChoiceAccountType(){
 @Preview(showBackground = true)
 @Composable
 fun ChoiceAccountTypePreview(){
-    ChoiceAccountType()
+    val navController = rememberNavController()
+    ChoiceAccountType(navController = navController)
 }

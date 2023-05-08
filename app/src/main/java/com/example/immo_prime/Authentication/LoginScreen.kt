@@ -293,6 +293,10 @@ fun GoogleButton(
     }
 }
 
+fun LoginWithGoogle(){
+
+}
+
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview(){
