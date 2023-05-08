@@ -45,7 +45,7 @@ fun CardLogement(
                 .height(149.dp)
                 .fillMaxWidth()
                 .border(1.dp, DarkGrayImo, RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)),
-            contentScale = ContentScale.FillHeight
+            contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(5.dp))
         Row (

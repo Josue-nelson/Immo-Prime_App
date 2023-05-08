@@ -1,6 +1,8 @@
 package com.example.immo_prime.Authentication
 
 import android.content.ContentValues.TAG
+import android.provider.Settings.Global.getString
+import android.provider.Settings.Secure.getString
 import android.util.Log
 import android.util.Patterns
 import androidx.compose.foundation.background
@@ -15,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +34,8 @@ import com.example.immo_prime.R
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
 import com.example.immo_prime.ui.theme.WhiteImo
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -293,6 +298,10 @@ fun createUser( // Cette fonction envoie les données ecrit dans le FireStore d'
     } catch (e: Exception) {
         println("Erreur : $e.message")
     }
+}
+
+fun GoogleSigninMethod(){
+
 }
 
 @Preview(showBackground = true)
