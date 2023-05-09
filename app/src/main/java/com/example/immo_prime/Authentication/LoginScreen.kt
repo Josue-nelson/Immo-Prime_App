@@ -3,8 +3,11 @@
 package com.example.immo_prime.Authentication
 
 
+import android.app.Activity
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -21,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -38,6 +42,11 @@ import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
 import com.example.immo_prime.ui.theme.Shapes
 import com.example.immo_prime.ui.theme.WhiteImo
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -202,11 +211,47 @@ fun LoginScreen(navController: NavController){ // Ecran de connexion de l'applic
                     color = WhiteImo
                 )
             }
+
+            val context = LocalContext.current
+            val token = stringResource(R.string.default_web_client_id)
+            val launcherNav = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.StartActivityForResult()
+            ) {
+                navController.navigate("")
+            }
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.StartActivityForResult(),
+            ) {
+                val task =
+                    try {
+                        val account = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+                            .getResult(ApiException::class.java)
+                        val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
+                        FirebaseAuth.getInstance().signInWithCredential(credential)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    println("Inscription reussie")
+                                    navController.navigate("home_screen")
+                                }
+                            }
+                    }
+                    catch (e: ApiException) {
+                        Log.w("TAG", "GoogleSign in Failed", e)
+                    }
+            }
+
             GoogleButton(
                 text = stringResource(id = R.string.connect_with_google),
                 loadingText = stringResource(id = R.string.loading_connect),
                 onClicked = {
                     Log.d("Boutton Google", "Cliquer")
+                    val gso = GoogleSignInOptions
+                        .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(token)
+                        .requestEmail()
+                        .build()
+                    val googleSignInClient = GoogleSignIn.getClient(context, gso)
+                    launcher.launch(googleSignInClient.signInIntent)
                 }
             )
             if (showMessage) {
@@ -291,10 +336,6 @@ fun GoogleButton(
             }
         }
     }
-}
-
-fun LoginWithGoogle(){
-
 }
 
 @Preview(showBackground = true)

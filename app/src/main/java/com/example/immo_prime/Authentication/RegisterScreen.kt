@@ -5,6 +5,8 @@ import android.provider.Settings.Global.getString
 import android.provider.Settings.Secure.getString
 import android.util.Log
 import android.util.Patterns
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -34,15 +37,20 @@ import com.example.immo_prime.R
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
 import com.example.immo_prime.ui.theme.WhiteImo
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RegisterScreen(navController: NavController){ // Ecran d'inscription
-    Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.White)) {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,// Disposition des elements dans une row
@@ -262,11 +270,46 @@ fun RegisterScreen(navController: NavController){ // Ecran d'inscription
                         color = WhiteImo
                     )
                 }
+                val context = LocalContext.current
+                val token = stringResource(R.string.default_web_client_id)
+                val launcherNav = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.StartActivityForResult()
+                ) {
+                    navController.navigate("")
+                }
+                val launcher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.StartActivityForResult(),
+                ) {
+                    val task =
+                        try {
+                            val account = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+                                .getResult(ApiException::class.java)
+                            val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
+                            FirebaseAuth.getInstance().signInWithCredential(credential)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        println("Inscription reussie")
+                                        navController.navigate("login_screen")
+                                    }
+                                }
+                        }
+                        catch (e: ApiException) {
+                            Log.w("TAG", "GoogleSign in Failed", e)
+                        }
+                }
+
                 GoogleButton(
                     text = stringResource(R.string.register_with_google),
                     loadingText = stringResource(R.string.inscription_cours),
                     onClicked = {
                         Log.d("Boutton Google", "Cliquer")
+                        val gso = GoogleSignInOptions
+                            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken(token)
+                            .requestEmail()
+                            .build()
+                        val googleSignInClient = GoogleSignIn.getClient(context, gso)
+                        launcher.launch(googleSignInClient.signInIntent)
                     }
                 )
             }
@@ -300,7 +343,7 @@ fun createUser( // Cette fonction envoie les données ecrit dans le FireStore d'
     }
 }
 
-fun GoogleSigninMethod(){
+fun SignUpWithGoogle(){
 
 }
 
