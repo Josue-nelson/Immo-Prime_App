@@ -1,5 +1,6 @@
 package com.example.immo_prime.HomeScreen
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -43,8 +44,7 @@ fun CardLogement(
             contentDescription = null,
             modifier = Modifier
                 .height(149.dp)
-                .fillMaxWidth()
-                .border(1.dp, DarkGrayImo, RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)),
+                .fillMaxWidth(),
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(5.dp))

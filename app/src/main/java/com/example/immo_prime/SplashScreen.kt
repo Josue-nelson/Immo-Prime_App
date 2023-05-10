@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.immo_prime.Animations.LoadingAnimation
 import kotlinx.coroutines.delay
 
 @Composable
@@ -22,15 +23,16 @@ fun SplashScreen(
 ) {
 
     LaunchedEffect(true) {
-        delay(2000)
+        delay(3000)
         navController.navigate("first_screen")
     }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White),
-        contentAlignment = Alignment.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Image(
@@ -38,9 +40,10 @@ fun SplashScreen(
             contentDescription = stringResource(id = R.string.imgLog),
             modifier = Modifier
                 .width(300.dp)
-                .height(300.dp)
+                .height(250.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
+        LoadingAnimation()
     }
 }
 
