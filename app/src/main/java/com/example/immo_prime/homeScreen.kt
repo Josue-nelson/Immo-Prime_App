@@ -1,20 +1,27 @@
 package com.example.immo_prime
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.LatLng
+import androidx.compose.ui.platform.ContextAmbient
+
 
 @Composable
 fun MysScreen() {
@@ -22,58 +29,13 @@ fun MysScreen() {
         Box(
             modifier = Modifier.weight(1f)
         ) {
-            Image(
-                painterResource(id = R.drawable.bg),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-            Row(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            ) {
-                Button(onClick = { /*TODO*/ },
-                    shape = CircleShape,
-                    modifier = Modifier.size(50.dp).background(Color.Transparent)) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = null)
-                    Spacer(modifier = Modifier.width(16.dp))
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            ) {
-                Button(onClick = { /*TODO*/ },
-                    shape = CircleShape,
-                    modifier = Modifier.size(50.dp).background(Color.Transparent)) {
-                Icon(Icons.Filled.Favorite, contentDescription = null)
-                Spacer(modifier = Modifier.width(16.dp))
-                }
-            }
+            // Définir l'en-tête ici
+
         }
 
         // Box 3: Description with price
         Box(modifier = Modifier.weight(1f)) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "Appartement",
-                    style = MaterialTheme.typography.h4,
-                    color = Color.Blue,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Text(
-                    text = "Description Description Description Description",
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                )
-                Text(
-                    text = "50,000.0 FCFA",
-                    style = MaterialTheme.typography.h5,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-            }
+            // Définir la description et le prix ici
         }
 
         // Box 2: TabBar with map and localisation
@@ -90,69 +52,104 @@ fun MysScreen() {
                 }
             }
             when (selectedTabIndex) {
-                0 -> Image(
-                    painter = painterResource(R.drawable.map),
-                    contentDescription = "map_img",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(vertical = 40.dp),
-                    contentScale = ContentScale.Crop
-                )
-                1 -> Text(
-                    text = "Cette Maison  est situé à Douala plus précisement à Logbessou derrière iuc à 100m de la route",
-                    modifier = Modifier.padding(50.dp)
-                )
+                0 -> {
+                    // Ajouter le bouton de permission de géolocalisation
+                    var isPermissionGranted by remember { mutableStateOf(false) }
+                    val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(ContextAmbient.current) }
+
+                    if (!isPermissionGranted) {
+                        Button(
+                            onClick = {
+                                requestPermission(
+                                    Manifest.permission.ACCESS_FINE_LOCATION,
+                                    LOCATION_PERMISSION_REQUEST_CODE
+                                )
+                            },
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(16.dp)
+                        ) {
+                            Text(text = "Autoriser la géolocalisation")
+                        }
+                    }
+
+                    // Ajouter la vue MapView
+                    AndroidView(factory = { context ->
+                        val mapView = MapView(context).apply {
+                            onCreate(null)
+                            getMapAsync { googleMap ->
+                                if (isPermissionGranted) {
+                                    googleMap.isMyLocationEnabled = true
+                                    if (ActivityCompat.checkSelfPermission(
+                                            this,
+                                            Manifest.permission.ACCESS_FINE_LOCATION
+                                        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                                            this,
+                                            Manifest.permission.ACCESS_COARSE_LOCATION
+                                        ) != PackageManager.PERMISSION_GRANTED
+                                    ) {
+                                        // TODO: Consider calling
+                                        //    ActivityCompat#requestPermissions
+                                        // here to request the missing permissions, and then overriding
+                                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                        //                                          int[] grantResults)
+                                        // to handle the case where the user grants the permission. See the documentation
+                                        // for ActivityCompat#requestPermissions for more details.
+                                        return@getMapAsync
+                                    }
+                                    fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                                        location?.let {
+                                            val currentLatLng = LatLng(location.latitude, location.longitude)
+                                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        mapView
+                    }, update = { mapView ->
+                        mapView.onResume()
+                    })
+                }
+                1 -> {
+                    // Ajouter les informations ici
+                    Text(
+                        text = "Cette Maison  est situé à Douala plus précisement à Logbessou derrière iuc à 100m de la route",
+                        modifier = Modifier.padding(50.dp)
+                    )
+                }
             }
         }
 
         // Box 4: Description with price
         Box(modifier = Modifier.weight(1f)) {
-            Column(modifier = Modifier.padding(10.dp)) {
-                Text(
-                    text = "Description",
-                    color = Color.Blue,
-                    style = MaterialTheme.typography.h4,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Text(
-                    text = "Ici on va faire une courte  et breve description de la maison",
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                )
-            }
+            // Définir la description ici
         }
 
-        //Reciclerview horizontal
-
-        //boutons de navigation
+        // Ajouter les boutons de navigation ici
         BottomNavigation {
             BottomNavigationItem(
                 icon = { Icon(Icons.Filled.Home, contentDescription = null) },
-                //label = { Text("Home") },
                 selected = true,
                 onClick = {}
             )
             BottomNavigationItem(
                 icon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                //label = { Text("Recherch") },
                 selected = false,
                 onClick = {}
             )
             BottomNavigationItem(
                 icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = null) },
-                //label = { Text("Market") },
                 selected = false,
                 onClick = {}
             )
             BottomNavigationItem(
                 icon = { Icon(Icons.Filled.Settings, contentDescription = null) },
-                //label = { Text("Settings") },
                 selected = false,
                 onClick = {}
             )
             BottomNavigationItem(
                 icon = { Icon(Icons.Filled.LocationOn, contentDescription = null) },
-                //label = { Text("Localize") },
                 selected = false,
                 onClick = {}
             )
@@ -160,68 +157,13 @@ fun MysScreen() {
     }
 }
 
-/*@Composable
-fun LazyRowWithImageTitleDescription() {
-    LazyRow{
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.bg),
-                contentDescription = null,
-                modifier = Modifier.size(120.dp)
-            )
-            Text(
-                text ="Titre",
-                style = MaterialTheme.typography.subtitle1,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-            Text(
-                text = "Description",
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-        }
-    }
-}*/
-
-
-
-
-
-
-
-@Composable
-fun MylListItem() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Image(
-            painterResource(id = R.drawable.bg),
-            contentDescription = null,
-            modifier = Modifier
-                .height(200.dp)
-                .fillMaxWidth(),
-            contentScale = ContentScale.Crop
+private fun requestPermission(permission: String, requestCode: Int) {
+    ContextAmbient.current.startActivity(
+        Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.parse("package:${ContextAmbient.current.packageName}")
         )
-        Text(
-            text = "Beautiful apartment near the beach",
-            style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(top = 8.dp)
-        )
-        Text(text = "Price: \$1000/month")
-        Text(
-            text = "This is a description of the apartment.",
-            modifier = Modifier.padding(top = 8.dp)
-        )
-    }
+    )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SecondsScreenPreview(){
-    MysScreen()
-    //MylListItem()
-}
+private const val LOCATION_PERMISSION_REQUEST_CODE = 123

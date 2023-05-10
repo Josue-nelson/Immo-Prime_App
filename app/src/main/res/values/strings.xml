@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">IMMO-PRIME</string>
+    <item name="map" type="id">ID_MAP</item>
+    <item name="map_view" type="id">ID_MAP_VIEW</item>
 </resources>
