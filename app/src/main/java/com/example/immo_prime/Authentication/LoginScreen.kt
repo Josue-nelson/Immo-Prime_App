@@ -237,6 +237,8 @@ fun LoginScreen(navController: NavController){ // Ecran de connexion de l'applic
                     }
                     catch (e: ApiException) {
                         Log.w("TAG", "GoogleSign in Failed", e)
+                        message = e.toString()
+                        showMessage = true
                     }
             }
 

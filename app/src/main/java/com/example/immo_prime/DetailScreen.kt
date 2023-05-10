@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun DetailScreen( navController: NavController) {
+fun DetailScreenFunctionRefused( navController: NavController) {
     Column(modifier = Modifier.fillMaxSize()) {
         Box(
             modifier = Modifier.weight(1f)

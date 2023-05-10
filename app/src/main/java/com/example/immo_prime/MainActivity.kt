@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.immo_prime.Authentication.LoginScreen
 import com.example.immo_prime.Authentication.RegisterScreen
+import com.example.immo_prime.HomeScreen.DetailScreen
 import com.example.immo_prime.ui.theme.IMMOPRIMETheme
 
 class MainActivity : ComponentActivity() {

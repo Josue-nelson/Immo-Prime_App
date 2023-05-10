@@ -1,15 +1,17 @@
 package com.example.immo_prime.HomeScreen
 
-import android.widget.Space
+import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.CropSquare
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.rounded.Bathroom
+import androidx.compose.material.icons.rounded.SingleBed
 import androidx.compose.material.icons.rounded.SquareFoot
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,32 +20,56 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.immo_prime.R
-import com.example.immo_prime.ui.theme.DarkBlueImo
-import com.example.immo_prime.ui.theme.DarkGrayImo
-import com.example.immo_prime.ui.theme.DarkGrayImo2
-import com.example.immo_prime.ui.theme.Shapes
+import com.example.immo_prime.ui.theme.*
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun DetailScreen(){
-    Column(
-        modifier = Modifier.fillMaxSize()
+fun DetailScreen(navController: NavController){
+    Scaffold(
+        bottomBar = { TransparentBottomNavigation() }
     ) {
-        ParallaxToolBar()
-        Spacer(modifier = Modifier.height(12.dp))
-        LogementDescription()
-        Spacer(modifier = Modifier.height(20.dp))
-        LocalInformation()
+        Body(navController = navController)
     }
 }
 
 @Composable
-private fun ParallaxToolBar() {
+fun Body(navController: NavController){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        ParallaxToolBar(navController = navController)
+        Spacer(modifier = Modifier.height(12.dp))
+        LogementDescription()
+        Spacer(modifier = Modifier.height(20.dp))
+        LocalInformation()
+        Spacer(modifier = Modifier.height(20.dp))
+        DescriptionText()
+        Spacer(modifier = Modifier.height(20.dp))
+        OtherHome()
+        Spacer(modifier = Modifier.height(20.dp))
+        HomeNearby(
+            listOf(
+                Logement("Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0),
+            )
+        )
+        Spacer(modifier = Modifier.height(50.dp))
+    }
+}
+
+@Composable
+private fun ParallaxToolBar(navController: NavController) {
     Box(
         modifier = Modifier
     ) {
@@ -61,7 +87,7 @@ private fun ParallaxToolBar() {
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate("home_screen") },
                 shape = CircleShape,
                 modifier = Modifier
                     .size(50.dp)
@@ -135,26 +161,71 @@ fun LogementDescription() {
         Text(text = "50,000,0 Fcfa", fontSize = 30.sp)
     }
     Row (
-        modifier = Modifier.padding(start = 20.dp, top = 10.dp)
+        modifier = Modifier.padding(start = 20.dp, top = 10.dp, end = 10.dp)
             ){
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            IconButton(
-                onClick = {  },
-                modifier = Modifier.size(16.dp)
+        Row (
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 10.dp, end = 10.dp, bottom = 0.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.SquareFoot,
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.onSurface
+                IconButton(
+                    onClick = {  },
+                    modifier = Modifier.size(16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Bathroom,
+                        contentDescription = stringResource(id = R.string.back_icon),
+                        tint = MaterialTheme.colors.onSurface
+                    )
+                }
+                Spacer(modifier = Modifier.width(3.dp))
+                Text(
+                    text = "2ba",
+                    fontSize = 16.sp
                 )
             }
-            Spacer(modifier = Modifier.width(3.dp))
-            Text(
-                text = "900 sqft",
-                fontSize = 16.sp
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                IconButton(
+                    onClick = {  },
+                    modifier = Modifier.size(16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.SingleBed,
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.onSurface
+                    )
+                }
+                Spacer(modifier = Modifier.width(3.dp))
+                Text(
+                    text = "2ba",
+                    fontSize = 16.sp
+                )
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                IconButton(
+                    onClick = {  },
+                    modifier = Modifier.size(16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.SquareFoot,
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.onSurface
+                    )
+                }
+                Spacer(modifier = Modifier.width(3.dp))
+                Text(
+                    text = "500sqft",
+                    fontSize = 16.sp
+                )
+            }
         }
     }
 }
@@ -165,72 +236,186 @@ fun LocalInformation() {
         text = "Local Information",
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(start = 20.dp)
+        modifier = Modifier.padding(start = 20.dp),
+        color = DarkGreenImo
     )
     Spacer(modifier = Modifier.height(12.dp))
     Row (
         modifier = Modifier
             .fillMaxWidth()
             ){
-        var selectedTab by remember { mutableStateOf("Map") }
-
-        TabRow(selectedTab = selectedTab) { tab ->
-            selectedTab = tab
-        }
-        Spacer(modifier = Modifier.height(9.dp))
-        Image(
-            painter = painterResource(id = R.drawable.house3),
-            contentDescription = "map",
-            modifier = Modifier.height(300.dp)
-        )
+        TabRow()
     }
 }
 
+
 @Composable
-fun TabRow(selectedTab: String, onTabSelected: (String) -> Unit) {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .background(Color.Transparent)
-            .padding(start = 20.dp),
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Tab(
-            text = "Map",
-            isSelected = selectedTab == "Map",
-            onClick = { onTabSelected("Map") }
-        )
-        Tab(
-            text = "Information",
-            isSelected = selectedTab == "Information",
-            onClick = { onTabSelected("Information") }
-        )
-    }
+fun DescriptionText() {
+    Text(
+        text = "Desription",
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(start = 20.dp),
+        color = DarkGreenImo
+    )
+    Spacer(modifier = Modifier.height(12.dp))
+    Text(
+        text = "Hi, original neighborhood photos," +
+            " resident re, original neighborhood photos, " +
+            "resident.,Hi, original neighborhood photos, " +
+            "resident re, original neighborhood photos, " +
+            "resident. In arcu risus vestibulum sollicitudin " +
+            "elit sed sed convallis tincidunt. Risus turpis hac metus " +
+            "facilisi ut enim massa eu. Dolor suscipit sit velit massa adipiscing" +
+            " adipiscing vulputate feugiat turpis. Fames sed ut dignissim tincidunt metus. " +
+            "Morbi varius quis enim gravida....",
+        fontSize = 14.sp,
+        modifier = Modifier.padding(start = 20.dp, end = 10.dp)
+    )
 }
 
 @Composable
-fun Tab(text: String, isSelected: Boolean, onClick: () -> Unit) {
+fun OtherHome() {
     Box(
-        Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .border(if (isSelected) 2.dp else 0.dp, DarkBlueImo, shape = Shapes.large)
-            .clickable(onClick = onClick)
-    ) {
+        modifier = Modifier.padding(horizontal = 20.dp)
+    ){
+        RowCardLogementPreview()
+    }
+}
+
+
+@Composable
+fun HomeNearby(items: List<Logement>) {
+    Column(
+        modifier = Modifier.padding(horizontal = 20.dp)
+    ){
         Text(
-            text = text,
-            color = if (isSelected) DarkBlueImo else Color.Gray,
+            text = "Home Nearby",
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(8.dp)
+            color = DarkGreenImo
         )
+        Spacer(modifier = Modifier.height(12.dp))
+        LazyRow{
+            items(items){
+                CardLogement(logement = Logement("Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
+                CardLogement(logement = Logement("Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
+                CardLogement(logement = Logement("Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
+            }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DetailScreenPreview(){
-    DetailScreen()
+    DetailScreen(navController = rememberNavController())
+}
+
+@Composable
+fun TabRow(){
+    var selectedTab by remember {
+        mutableStateOf("Map")
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Row (
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+                ){
+            ClickableText(text = AnnotatedString("Map"), onClick = { selectedTab = "Map" }, modifier = if (selectedTab == "Map") Modifier
+                .border(BorderStroke(2.dp, DarkBlueImo), shape = MaterialTheme.shapes.medium)
+                .padding(horizontal = 16.dp, vertical = 8.dp) else Modifier,
+                style = TextStyle(
+                    color = if (selectedTab == "Map") DarkBlueImo else Color.Black
+                )
+            )
+            ClickableText(text = AnnotatedString("Information"), onClick = { selectedTab = "Information" }, modifier = if (selectedTab == "Information") Modifier
+                .border(BorderStroke(2.dp, DarkBlueImo), shape = MaterialTheme.shapes.medium)
+                .padding(horizontal = 16.dp, vertical = 8.dp) else Modifier,
+                style = TextStyle(
+                    color = if (selectedTab == "Information") DarkBlueImo else Color.Black
+                )
+            )
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        if(selectedTab == "Map"){
+            Image(
+                painter = painterResource(id = R.drawable.mapf),
+                contentDescription = null,
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 14.dp)
+                    .border(BorderStroke(1.dp, Color.Black)),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            Text(
+                text = "Cette Maison  est situé à Douala plus précisement à Logbessou derrière iuc à 100m de la route",
+                modifier = Modifier.padding(start = 20.dp, end = 10.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun TransparentBottomNavigation() {
+    BottomNavigation(
+        backgroundColor = Color.White,
+        elevation = 0.dp, // remove the shadow below the bottom navigation bar
+    ) {
+        Row {
+            BottomNavigationItem(
+                icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
+                selected = true,
+                onClick = { /*TODO*/ },
+                selectedContentColor = Color.DarkGray,
+                unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                //label = { Text(text = "Home") }
+            )
+            BottomNavigationItem(
+                icon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
+                selected = false,
+                onClick = { /*TODO*/ },
+                selectedContentColor = Color.DarkGray,
+                unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                //label = { Text(text = "Search") }
+            )
+            BottomNavigationItem(
+                icon = {
+                    Icon(
+                        Icons.Filled.ShoppingCart,
+                        contentDescription = "Favorites"
+                    )
+                },
+                selected = false,
+                onClick = { /*TODO*/ },
+                selectedContentColor = Color.DarkGray,
+                unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                //label = { Text(text = "Favorites") }
+            )
+            BottomNavigationItem(
+                icon = { Icon(Icons.Filled.Tag, contentDescription = "Downloads") },
+                selected = false,
+                onClick = { /*TODO*/ },
+                selectedContentColor = Color.DarkGray,
+                unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                //label = { Text(text = "Downloads") }
+            )
+            BottomNavigationItem(
+                icon = { Icon(Icons.Filled.Person, contentDescription = "Profile") },
+                selected = false,
+                onClick = { /*TODO*/ },
+                selectedContentColor = Color.DarkGray,
+                unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                //label = { Text(text = "Profile") }
+            )
+        }
+    }
 }
