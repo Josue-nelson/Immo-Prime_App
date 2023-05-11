@@ -1,6 +1,7 @@
 package com.example.immo_prime
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -20,7 +21,11 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
-import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import com.google.android.gms.maps.MapsInitializer
 
 
 @Composable
@@ -53,63 +58,55 @@ fun MysScreen() {
             }
             when (selectedTabIndex) {
                 0 -> {
-                    // Ajouter le bouton de permission de géolocalisation
+                    val context = LocalContext.current
+                    val mapView = rememberMapViewWithLifecycle()
                     var isPermissionGranted by remember { mutableStateOf(false) }
-                    val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(ContextAmbient.current) }
+                    val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
 
                     if (!isPermissionGranted) {
-                        Button(
-                            onClick = {
+                        /*Button(
+                            onClick = {*/
                                 requestPermission(
                                     Manifest.permission.ACCESS_FINE_LOCATION,
                                     LOCATION_PERMISSION_REQUEST_CODE
                                 )
-                            },
+                            /*},
                             modifier = Modifier
                                 .align(Alignment.BottomEnd)
                                 .padding(16.dp)
                         ) {
                             Text(text = "Autoriser la géolocalisation")
-                        }
+                        }*/
                     }
 
-                    // Ajouter la vue MapView
-                    AndroidView(factory = { context ->
-                        val mapView = MapView(context).apply {
-                            onCreate(null)
-                            getMapAsync { googleMap ->
-                                if (isPermissionGranted) {
-                                    googleMap.isMyLocationEnabled = true
-                                    if (ActivityCompat.checkSelfPermission(
-                                            this,
-                                            Manifest.permission.ACCESS_FINE_LOCATION
-                                        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                                            this,
-                                            Manifest.permission.ACCESS_COARSE_LOCATION
-                                        ) != PackageManager.PERMISSION_GRANTED
-                                    ) {
-                                        // TODO: Consider calling
-                                        //    ActivityCompat#requestPermissions
-                                        // here to request the missing permissions, and then overriding
-                                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                        //                                          int[] grantResults)
-                                        // to handle the case where the user grants the permission. See the documentation
-                                        // for ActivityCompat#requestPermissions for more details.
-                                        return@getMapAsync
-                                    }
-                                    fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                                        location?.let {
-                                            val currentLatLng = LatLng(location.latitude, location.longitude)
-                                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-                                        }
+                    AndroidView({ mapView }) { mapView ->
+                        mapView.getMapAsync { googleMap ->
+                            MapsInitializer.initialize(context)
+                            googleMap.uiSettings.isMyLocationButtonEnabled = false
+                            googleMap.uiSettings.isZoomControlsEnabled = true
+
+                            if (ActivityCompat.checkSelfPermission(
+                                    context,
+                                    Manifest.permission.ACCESS_FINE_LOCATION
+                                ) == PackageManager.PERMISSION_GRANTED
+                            ) {
+                                googleMap.isMyLocationEnabled = true
+                                fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                                    location?.let {
+                                        val currentLatLng = LatLng(location.latitude, location.longitude)
+                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
                                     }
                                 }
+                            } else {
+                                // Demander la permission de localisation
+                                ActivityCompat.requestPermissions(
+                                    context as Activity,
+                                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                                    LOCATION_PERMISSION_REQUEST_CODE
+                                )
                             }
                         }
-                        mapView
-                    }, update = { mapView ->
-                        mapView.onResume()
-                    })
+                    }
                 }
                 1 -> {
                     // Ajouter les informations ici
@@ -120,6 +117,40 @@ fun MysScreen() {
                 }
             }
         }
+
+        //@Composable
+        /*private fun rememberMapViewWithLifecycle(): MapView {
+            val context = LocalContext.current
+            val mapView = remember {
+                MapView(context).apply {
+                    id = R.id.map_view
+                }
+            }
+
+            val lifecycleOwner = LocalLifecycleOwner.current
+            DisposableEffect(lifecycleOwner) {
+                val observer = object : DefaultLifecycleObserver {
+                    override fun onResume(owner: LifecycleOwner) {
+                        mapView.onResume()
+                    }
+
+                    override fun onPause(owner: LifecycleOwner) {
+                        mapView.onPause()
+                    }
+
+                    override fun onDestroy(owner: LifecycleOwner) {
+                        mapView.onDestroy()
+                    }
+                }
+                lifecycleOwner.lifecycle.addObserver(observer)
+
+                onDispose {
+                    lifecycleOwner.lifecycle.removeObserver(observer)
+                }
+            }
+
+            return mapView
+        }*/
 
         // Box 4: Description with price
         Box(modifier = Modifier.weight(1f)) {
@@ -156,12 +187,47 @@ fun MysScreen() {
         }
     }
 }
+@Composable
+private fun rememberMapViewWithLifecycle() : MapView {
+    val context = LocalContext.current
+    val mapView = remember {
+        MapView(context).apply {
+            id = R.id.map_view
+        }
+    }
 
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = object : DefaultLifecycleObserver {
+            override fun onResume(owner: LifecycleOwner) {
+                mapView.onResume()
+            }
+
+            override fun onPause(owner: LifecycleOwner) {
+                mapView.onPause()
+            }
+
+            override fun onDestroy(owner: LifecycleOwner) {
+                mapView.onDestroy()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
+    return mapView
+}
+
+
+@Composable
 private fun requestPermission(permission: String, requestCode: Int) {
-    ContextAmbient.current.startActivity(
+    LocalContext.current.startActivity(
         Intent(
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-            Uri.parse("package:${ContextAmbient.current.packageName}")
+            Uri.parse("package:${LocalContext.current.packageName}")
         )
     )
 }
