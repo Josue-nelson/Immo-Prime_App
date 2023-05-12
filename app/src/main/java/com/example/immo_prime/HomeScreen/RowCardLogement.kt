@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.immo_prime.R
+import com.example.immo_prime.Utility.Logement
 import com.example.immo_prime.ui.theme.DarkGreenImo
 
 @Composable

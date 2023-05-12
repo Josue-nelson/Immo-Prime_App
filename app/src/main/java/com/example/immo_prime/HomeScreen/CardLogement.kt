@@ -1,6 +1,5 @@
 package com.example.immo_prime.HomeScreen
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.immo_prime.R
+import com.example.immo_prime.Utility.Logement
 import com.example.immo_prime.ui.theme.BorderCardImo
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
@@ -159,5 +159,6 @@ fun CardLogement(
 @Composable
 fun CardLogementPreview(){
     CardLogement(logement = Logement("Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\n" +
-            "A 100m de Cyntiche Lounge", painterResource(id = R.drawable.house4), 2, 2, 900.0))
+            "A 100m de Cyntiche Lounge", painterResource(id = R.drawable.house4), 2, 2, 900.0)
+    )
 }

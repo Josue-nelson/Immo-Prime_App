@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.immo_prime"
-        minSdk 23
+        minSdk 22
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -68,11 +68,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.1'
 
+    // Navigation
     def nav_version = "2.5.3"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
+    // test
     // Retrofit utiliser pour manipulation avec le servur Strapi
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"

@@ -3,7 +3,6 @@
 package com.example.immo_prime.Authentication
 
 
-import android.app.Activity
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult

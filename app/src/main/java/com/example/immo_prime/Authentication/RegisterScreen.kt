@@ -1,8 +1,6 @@
 package com.example.immo_prime.Authentication
 
 import android.content.ContentValues.TAG
-import android.provider.Settings.Global.getString
-import android.provider.Settings.Secure.getString
 import android.util.Log
 import android.util.Patterns
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -18,7 +16,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -50,7 +47,8 @@ import com.google.firebase.ktx.Firebase
 fun RegisterScreen(navController: NavController){ // Ecran d'inscription
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(Color.White)) {
+        .background(Color.White)
+    ) {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,// Disposition des elements dans une row
