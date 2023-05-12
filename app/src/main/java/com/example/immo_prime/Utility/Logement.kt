@@ -7,7 +7,7 @@ data class Logement(
     val type: String = "",
     val price: Double = 0.0,
     val description: String = "",
-    val Picture: Painter?,
+    val Picture: Painter,
     val nbreDouche: Int = 0,
     val nbreChambre: Int = 0,
     val superficie: Double = 0.0

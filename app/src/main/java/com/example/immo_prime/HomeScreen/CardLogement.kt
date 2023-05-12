@@ -158,7 +158,7 @@ fun CardLogement(
 @Preview(showBackground = true)
 @Composable
 fun CardLogementPreview(){
-    CardLogement(logement = Logement("Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\n" +
+    CardLogement(logement = Logement(1,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\n" +
             "A 100m de Cyntiche Lounge", painterResource(id = R.drawable.house4), 2, 2, 900.0)
     )
 }
