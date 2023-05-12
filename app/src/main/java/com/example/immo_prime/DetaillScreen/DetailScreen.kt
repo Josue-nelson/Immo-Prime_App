@@ -1,4 +1,4 @@
-package com.example.immo_prime.HomeScreen
+package com.example.immo_prime.DetaillScreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*
@@ -23,20 +23,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.immo_prime.HomeScreen.CardLogement
+import com.example.immo_prime.HomeScreen.RowCardLogementPreview
 import com.example.immo_prime.R
+import com.example.immo_prime.Utility.Logement
 import com.example.immo_prime.ui.theme.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun DetailScreen(navController: NavController){
+    val scaffoldState = rememberScaffoldState()
     Scaffold(
-        bottomBar = { TransparentBottomNavigation() }
+        bottomBar = { TransparentBottomNavigation() },
+        scaffoldState = scaffoldState,
+        modifier = Modifier
     ) {
         Body(navController = navController)
     }
@@ -87,7 +92,7 @@ private fun ParallaxToolBar(navController: NavController) {
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Button(
-                onClick = { navController.navigate("home_screen") },
+                onClick = { navController.popBackStack() },
                 shape = CircleShape,
                 modifier = Modifier
                     .size(50.dp)
