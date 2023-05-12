@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.immo_prime.HomeScreen.TransparentBottomNavigation
 import kotlinx.coroutines.launch
 
 //@Composable
@@ -49,6 +50,7 @@ fun HomeScreen(navController: NavController
 
     Scaffold(
         scaffoldState = scaffoldState,
+        bottomBar = {TransparentBottomNavigation()} ,
 
 //        topBar = {
 //            Surface(
@@ -125,7 +127,7 @@ fun HomeScreen(navController: NavController
                 HorizontalImageList(navController = navController)
                 CardWithImageAndText()
                 CardWithImageAndText()
-                NavigationBar()
+
 
 
             }
@@ -138,36 +140,6 @@ fun HomeScreen(navController: NavController
 
 
 
-@Composable
-fun NavigationBar() {
-    BottomNavigation {
-        BottomNavigationItem(
-            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-            selected = true,
-            onClick = {}
-        )
-        BottomNavigationItem(
-            icon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
-            selected = false,
-            onClick = {}
-        )
-        BottomNavigationItem(
-            icon = { Icon(Icons.Filled.Favorite, contentDescription = "Favorite") },
-            selected = false,
-            onClick = {}
-        )
-        BottomNavigationItem(
-            icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = "Cart") },
-            selected = false,
-            onClick = {}
-        )
-        BottomNavigationItem(
-            icon = { Icon(Icons.Filled.Person, contentDescription = "Profile") },
-            selected = false,
-            onClick = {}
-        )
-    }
-}
 @Composable
 fun ParallaxTopAppBar(
     title: String,
