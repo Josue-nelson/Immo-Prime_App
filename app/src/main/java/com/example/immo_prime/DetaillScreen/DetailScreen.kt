@@ -66,7 +66,7 @@ fun Body(navController: NavController){
         Spacer(modifier = Modifier.height(20.dp))
         HomeNearby(
             listOf(
-                Logement("Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0),
+                Logement(2,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0),
             )
         )
         Spacer(modifier = Modifier.height(50.dp))
@@ -303,9 +303,9 @@ fun HomeNearby(items: List<Logement>) {
         Spacer(modifier = Modifier.height(12.dp))
         LazyRow{
             items(items){
-                CardLogement(logement = Logement("Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
-                CardLogement(logement = Logement("Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
-                CardLogement(logement = Logement("Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
+                CardLogement(logement = Logement(3, "Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
+                CardLogement(logement = Logement(4,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
+                CardLogement(logement = Logement(5,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
