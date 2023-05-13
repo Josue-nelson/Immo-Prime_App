@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -64,7 +65,8 @@ fun LoginScreen(navController: NavController){ // Ecran de connexion de l'applic
             modifier = Modifier
                 .height(300.dp) // Definition de la hauteur
                 .fillMaxWidth() // Remplir toutes la largeur de l'ecran
-                .background(DarkBlueImo) // Background DarkBleu
+                .background(DarkBlueImo),
+            contentScale = ContentScale.Crop// Background DarkBleu
         )
         Column(
             Modifier

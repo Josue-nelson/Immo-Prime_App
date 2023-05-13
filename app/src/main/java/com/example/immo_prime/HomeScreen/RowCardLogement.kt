@@ -29,9 +29,30 @@ fun RowCardLogement(items: List<Logement>){
         Spacer(modifier = Modifier.height(12.dp))
         LazyRow{
             items(items){
-                CardLogement(logement = Logement(1,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
-                CardLogement(logement = Logement(2,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
-                CardLogement(logement = Logement(3,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
+                CardLogement("Appartement",
+                    50000.0,
+                    "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                    2,
+                    2,
+                    900.0,
+                    image = painterResource(id = R.drawable.house3),
+                )
+                CardLogement("Appartement",
+                    50000.0,
+                    "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                    2,
+                    2,
+                    900.0,
+                    image = painterResource(id = R.drawable.house6),
+                )
+                CardLogement("Appartement",
+                    50000.0,
+                    "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                    2,
+                    2,
+                    900.0,
+                    image = painterResource(id = R.drawable.house7),
+                )
             }
         }
     }

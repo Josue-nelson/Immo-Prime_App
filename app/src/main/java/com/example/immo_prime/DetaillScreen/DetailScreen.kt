@@ -1,6 +1,7 @@
 package com.example.immo_prime.DetaillScreen
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -29,7 +30,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.immo_prime.HomeScreen.CardLogement
-import com.example.immo_prime.HomeScreen.RowCardLogementPreview
 import com.example.immo_prime.R
 import com.example.immo_prime.Utility.Logement
 import com.example.immo_prime.ui.theme.*
@@ -56,13 +56,17 @@ fun Body(navController: NavController){
     ) {
         ParallaxToolBar(navController = navController)
         Spacer(modifier = Modifier.height(12.dp))
-        LogementDescription()
+        LogementDescription(navController = navController)
         Spacer(modifier = Modifier.height(20.dp))
         LocalInformation()
         Spacer(modifier = Modifier.height(20.dp))
         DescriptionText()
         Spacer(modifier = Modifier.height(20.dp))
-        OtherHome()
+        OtherHome(
+            listOf(
+                Logement(2,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0),
+            )
+        )
         Spacer(modifier = Modifier.height(20.dp))
         HomeNearby(
             listOf(
@@ -92,7 +96,9 @@ private fun ParallaxToolBar(navController: NavController) {
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Button(
-                onClick = { navController.popBackStack() },
+                onClick = {
+                    navController.popBackStack()
+                },
                 shape = CircleShape,
                 modifier = Modifier
                     .size(50.dp)
@@ -110,14 +116,16 @@ private fun ParallaxToolBar(navController: NavController) {
                 .align(Alignment.TopEnd)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
+            var isClickedIcon by remember { mutableStateOf(false) }
+            val buttonColor = animateColorAsState(if (isClickedIcon) DarkGrayImo else DarkGreenImo)
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { isClickedIcon != isClickedIcon },
                 shape = CircleShape,
                 modifier = Modifier
                     .size(50.dp)
                     .background(Color.Transparent),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = DarkGrayImo
+                    backgroundColor = buttonColor.value
                 )
             ) {
                 Icon(Icons.Filled.Favorite, contentDescription = null, tint = DarkGrayImo2)
@@ -128,7 +136,7 @@ private fun ParallaxToolBar(navController: NavController) {
 }
 
 @Composable
-fun LogementDescription() {
+fun LogementDescription(navController: NavController) {
     Row (
         modifier = Modifier.padding(start = 20.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -159,6 +167,10 @@ fun LogementDescription() {
             fontSize = 14.sp
         )
         Image(painter = painterResource(id = R.drawable.ic_for_sale_2), contentDescription = null, modifier = Modifier.padding(end = 5.dp))
+        Button(onClick = { navController.navigate("payment") }) {
+            Text("Payment")
+        }
+
     }
     Row (
         modifier = Modifier.padding(start = 20.dp, top = 10.dp)
@@ -280,11 +292,47 @@ fun DescriptionText() {
 }
 
 @Composable
-fun OtherHome() {
+fun OtherHome(items: List<Logement>) {
     Box(
         modifier = Modifier.padding(horizontal = 20.dp)
     ){
-        RowCardLogementPreview()
+        Column {
+            Text(
+                text = "Similar Homes You May Likes",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = DarkGreenImo
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            LazyRow{
+                items(items){
+                    CardLogement("Appartement",
+                        50000.0,
+                        "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                        2,
+                        2,
+                        900.0,
+                        image = painterResource(id = R.drawable.house3),
+                    )
+                    CardLogement("Appartement",
+                        50000.0,
+                        "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                        2,
+                        2,
+                        900.0,
+                        image = painterResource(id = R.drawable.house6),
+                    )
+                    CardLogement("Appartement",
+                        50000.0,
+                        "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                        2,
+                        2,
+                        900.0,
+                        image = painterResource(id = R.drawable.house7),
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -303,9 +351,30 @@ fun HomeNearby(items: List<Logement>) {
         Spacer(modifier = Modifier.height(12.dp))
         LazyRow{
             items(items){
-                CardLogement(logement = Logement(3, "Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
-                CardLogement(logement = Logement(4,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
-                CardLogement(logement = Logement(5,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge", painterResource(id = R.drawable.house3), 2, 2, 900.0))
+                CardLogement( "Appartement",
+                    50000.0,
+                    "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                     2,
+                    2,
+                    900.0,
+                    painterResource(id = R.drawable.house3)
+                )
+                CardLogement( "Villa",
+                    50000.0,
+                    "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                    2,
+                    2,
+                    900.0,
+                    painterResource(id = R.drawable.house1)
+                )
+                CardLogement( "Appartement",
+                    50000.0,
+                    "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                    2,
+                    2,
+                    900.0,
+                    painterResource(id = R.drawable.house4)
+                )
             }
         }
         Spacer(modifier = Modifier.height(12.dp))

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.rounded.SquareFoot
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,14 +24,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.immo_prime.R
-import com.example.immo_prime.Utility.Logement
 import com.example.immo_prime.ui.theme.BorderCardImo
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
 
 @Composable
 fun CardLogement(
-    logement: Logement
+    type: String,
+    price: Double,
+    description: String,
+    nbreChambre: Int,
+    nbreDouche: Int,
+    superficie: Double,
+    image: Painter = painterResource(id = R.drawable.house1)
 ){
     Column(
         modifier = Modifier
@@ -40,7 +46,7 @@ fun CardLogement(
             .background(DarkGrayImo, RoundedCornerShape(10.dp))
     ) {
         Image(
-            painter = painterResource(id = R.drawable.house5),
+            painter = image,
             contentDescription = null,
             modifier = Modifier
                 .height(149.dp)
@@ -58,7 +64,7 @@ fun CardLogement(
                 tint = DarkBlueImo
             )
             Text(
-                text = logement.type,
+                text = type,
                 fontSize = 7.sp,
                 modifier = Modifier.padding(start = 3.dp)
             )
@@ -72,7 +78,7 @@ fun CardLogement(
             horizontalArrangement = Arrangement.SpaceBetween
                 ){
             Text(
-                text = "${logement.price} Fcfa"
+                text = "$price Fcfa"
             )
             Image(
                 painter = painterResource(id = R.drawable.ic_for_sale_3),
@@ -82,7 +88,7 @@ fun CardLogement(
         }
         Spacer(modifier = Modifier.height(5.dp))
         Text(
-            text = logement.description,
+            text = description,
             fontSize = 9.sp,
             modifier = Modifier.padding(start = 10.dp)
         )
@@ -108,7 +114,7 @@ fun CardLogement(
                 }
                 Spacer(modifier = Modifier.width(3.dp))
                 Text(
-                    text = "${logement.nbreDouche}ba",
+                    text = "$nbreDouche ba",
                     fontSize = 7.sp
                 )
             }
@@ -127,7 +133,7 @@ fun CardLogement(
                 }
                 Spacer(modifier = Modifier.width(3.dp))
                 Text(
-                    text = "${logement.nbreChambre}ba",
+                    text = "$nbreChambre ba",
                     fontSize = 7.sp
                 )
             }
@@ -146,7 +152,7 @@ fun CardLogement(
                 }
                 Spacer(modifier = Modifier.width(3.dp))
                 Text(
-                    text = "${logement.superficie}sqft",
+                    text = "$superficie sqft",
                     fontSize = 7.sp
                 )
             }
@@ -158,7 +164,14 @@ fun CardLogement(
 @Preview(showBackground = true)
 @Composable
 fun CardLogementPreview(){
-    CardLogement(logement = Logement(1,"Appartement", 50000.0,"Rue des palmier Nkolmesseng-Yaounde\n" +
-            "A 100m de Cyntiche Lounge", painterResource(id = R.drawable.house4), 2, 2, 900.0)
+    CardLogement(
+        "Appartement",
+        50000.0,
+        "Rue des palmier Nkolmesseng-Yaounde\n" +
+            "A 100m de Cyntiche Lounge",
+        2,
+        2,
+        900.0,
+        image = painterResource(id = R.drawable.house5)
     )
 }

@@ -6,7 +6,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -21,11 +20,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.immo_prime.HomeScreen.TransparentBottomNavigation
+import com.example.immo_prime.DetaillScreen.TransparentBottomNavigation
+import com.example.immo_prime.HomeScreen.CardLogement
+import com.example.immo_prime.ui.theme.DarkBlueImo
 import kotlinx.coroutines.launch
 
 //@Composable
@@ -50,7 +50,7 @@ fun HomeScreen(navController: NavController
 
     Scaffold(
         scaffoldState = scaffoldState,
-        bottomBar = {TransparentBottomNavigation()} ,
+        bottomBar = { TransparentBottomNavigation()} ,
 
 //        topBar = {
 //            Surface(
@@ -91,7 +91,13 @@ fun HomeScreen(navController: NavController
 
         drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
         drawerContent = {
-            DrawerHeader()
+            NavigationDrawer(
+                AvatarUrl = "https://images.pexels.com/users/avatars/501854872/yvana-tchinda-387.png?auto=compress&fit=crop&h=30&w=30&dpr=1",
+                //AvatarUrl  =" https://www.bing.com/th?id=OIP.H_nHckb6rTgcBw9hNszMoAHaEK&w=333&h=187&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
+                name = "yvana cabrelle",
+                email = "tchindayvana@gmail.com",
+                items = listOf<MenuItem>().toList()
+            )
             DrawerBody(
                 items = listOf(
                     MenuItem(
@@ -124,6 +130,7 @@ fun HomeScreen(navController: NavController
                 }
             )
         },
+
 
 
 
@@ -238,7 +245,8 @@ fun HousePurchaseCard() {
             Text(
                 text = "50.000f",
                 style = MaterialTheme.typography.h5,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier
+                    .padding(16.dp)
                     .padding(end = 5.dp)
             )
 
@@ -281,70 +289,44 @@ fun HorizontalImageList(navController: NavController) {
     }
 
     LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
-        items(images) { item ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                elevation = 8.dp,
-                onClick = { navController.navigate("detail_screen") },
-                //shape = RoundedCornerShape(16.dp)
-            ) {
-                Column(modifier = Modifier.width(200.dp)) {
-
-                    Image(
-
-                        painterResource(id = R.drawable.house1),
-                        contentDescription = "Appartemenent a louer situer a douala-logbessou",
-                        modifier = Modifier
-                            .height(180.dp)
-                            .fillMaxWidth()
-                        //.clip(shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
-                        // contentScale = ContentScale.Crop
-                    )
-                    Text(
-                        text = "Appartement",
-                        textAlign = TextAlign.Left,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp, horizontal = 10.dp)
-                    )
-                    Text(
-                        text="For Sale",
-                        color = Color.Blue,
-                        fontSize = 10.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp, horizontal = 10.dp)
-
-
-                    )
-                    Text(
-                        text = "Appartemenent a louer situer a douala-logbessou",
-                        textAlign = TextAlign.Left,
-                        fontSize = 14.sp,
-                        color=Color.Gray,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp, horizontal = 10.dp)
-                    )
-                    Text(
-                        text="50.000f",
-                        color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 5.dp)
-                            .padding(vertical = 5.dp, horizontal = 10.dp)
-
-
-                    )
-
-                }
+        items(images) {
+           Card(onClick = { navController.navigate("detail_screen") }){
+               CardLogement("Appartement",
+                   50000.0,
+                   "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                   2,
+                   2,
+                   900.0,
+                   image = painterResource(id = R.drawable.house3),
+               )
+           }
+            Spacer(modifier = Modifier.width(10.dp))
+            Card (
+                onClick = { navController.navigate("detail_screen") }
+                    ){
+                CardLogement("Appartement",
+                    50000.0,
+                    "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                    2,
+                    2,
+                    900.0,
+                    image = painterResource(id = R.drawable.house6),
+                )
             }
+            Spacer(modifier = Modifier.width(10.dp))
+            Card(
+                onClick = { navController.navigate("detail_screen") }
+            ) {
+                CardLogement("Appartement",
+                    50000.0,
+                    "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                    2,
+                    2,
+                    900.0,
+                    image = painterResource(id = R.drawable.house7),
+                )
+            }
+            Spacer(modifier = Modifier.width(10.dp))
         }
     }
 }
@@ -401,8 +383,6 @@ fun CardWithImageAndText() {
                 color = Color.Blue,
                 fontSize = 10.sp,
                 modifier = Modifier.padding(vertical = 2.dp)
-
-
             )
             Text(
                 text="50.000f",
@@ -412,7 +392,9 @@ fun CardWithImageAndText() {
 
 
             )
-            Button(onClick = { /* Do something */ }, modifier = Modifier.align(Alignment.End)) {
+            Button(onClick = { /* Do something */ }, modifier = Modifier.align(Alignment.End),colors = ButtonDefaults.buttonColors(
+                backgroundColor = DarkBlueImo
+            )) {
                 Text("Read More")
             }
         }
@@ -425,7 +407,7 @@ fun CardWithImageAndText() {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Image(
-                painter = painterResource(R.drawable.houseback),
+                painter = painterResource(R.drawable.house8),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -453,12 +435,16 @@ fun CardWithImageAndText() {
                 text="50.000f",
                 color = Color.Black,
                 fontSize = 14.sp,
-                modifier = Modifier.padding(vertical = 3.dp).padding(end = 5.dp)
+                modifier = Modifier
+                    .padding(vertical = 3.dp)
+                    .padding(end = 5.dp)
 
 
 
             )
-            Button(onClick = { /* Do something */ }, modifier = Modifier.align(Alignment.End)) {
+            Button(onClick = { /* Do something */ }, modifier = Modifier.align(Alignment.End), colors = ButtonDefaults.buttonColors(
+                backgroundColor = DarkBlueImo
+            )) {
                 Text("Read More")
             }
         }
@@ -467,7 +453,9 @@ fun CardWithImageAndText() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HorizontalImageList2() {
+fun HorizontalImageList2(
+    navController: NavController
+) {
     val images = listOf(
         ImageWithText(R.drawable.house3, "Titre 1"),
         ImageWithText(R.drawable.house4, "Titre 2"),
@@ -479,13 +467,13 @@ fun HorizontalImageList2() {
             .padding(horizontal = 16.dp, vertical = 15.dp),
 
         verticalAlignment = Alignment.Bottom,
-    ){
+    ) {
         Text(
             text = "Similar House You May Location",
             textAlign = TextAlign.Left,
             fontSize = 30.sp,
 
-            color=Color.Black,
+            color = Color.Black,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
@@ -500,60 +488,35 @@ fun HorizontalImageList2() {
                     .fillMaxWidth()
                     .padding(16.dp),
                 elevation = 8.dp,
-                onClick = {},
+                onClick = { navController.navigate("detail_screen") },
                 //shape = RoundedCornerShape(16.dp)
             ) {
                 Column(modifier = Modifier.width(200.dp)) {
 
-                    Image(
-
-                        painterResource(id = R.drawable.house4),
-                        contentDescription = "Appartemenent a louer situer a douala-logbessou",
-                        modifier = Modifier
-                            .height(180.dp)
-                            .fillMaxWidth()
-                        //.clip(shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
-                        // contentScale = ContentScale.Crop
+                    CardLogement("Appartement",
+                        50000.0,
+                        "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                        2,
+                        2,
+                        900.0,
+                        image = painterResource(id = R.drawable.house3),
                     )
-                    Text(
-                        text = "Appartement",
-                        textAlign = TextAlign.Left,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp, horizontal = 10.dp)
+
+                    CardLogement("Appartement",
+                        50000.0,
+                        "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                        2,
+                        2,
+                        900.0,
+                        image = painterResource(id = R.drawable.house4)
                     )
-                    Text(
-                        text="Location",
-                        color = Color.Blue,
-                        fontSize = 10.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp, horizontal = 10.dp)
-
-
-                    )
-                    Text(
-                        text = "Appartemenent a louer situer a douala-logbessou",
-                        textAlign = TextAlign.Left,
-                        fontSize = 14.sp,
-                        color = Color.DarkGray,
-
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp, horizontal = 10.dp)
-                    )
-                    Text(
-                        text="1.000.000f",
-                        color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp, horizontal = 10.dp)
-
-
+                    CardLogement("Appartement",
+                        50000.0,
+                        "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                        2,
+                        2,
+                        900.0,
+                        image = painterResource(id = R.drawable.houseback),
                     )
 
                 }
@@ -562,10 +525,6 @@ fun HorizontalImageList2() {
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
 
 //@Preview(showBackground = true)
 //@Composable

@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.immo_prime.Animations_object.dropDownMenu
 import com.example.immo_prime.Utility.Logement
 import com.example.immo_prime.Utility.sharedViewModel
 
@@ -74,16 +75,7 @@ fun AddLogement(
 //                }
 //            )
             // Type
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = type,
-                onValueChange = {
-                    type = it
-                },
-                label = {
-                    Text(text = "Type")
-                }
-            )
+            dropDownMenu()
             // Price
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -174,7 +166,7 @@ fun AddLogement(
                     sharedViewModel.saveLogement(logement = userData, context = context)
                 }
             ) {
-                Text(text = "Save")
+                Text(text = "Publier")
             }
         }
     }

@@ -13,6 +13,7 @@ import com.example.immo_prime.Authentication.LoginScreen
 import com.example.immo_prime.Authentication.RegisterScreen
 import com.example.immo_prime.DetaillScreen.DetailScreen
 import com.example.immo_prime.ui.theme.IMMOPRIMETheme
+import com.example.immo_prime.ui.theme.Payement
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
                     composable("home_screen", content = { HomeScreen(navController=navController) })
                     composable("choice_account", content = { ChoiceAccountType(navController = navController) })
                     composable("detail_screen" , content={ DetailScreen(navController=navController) })
+                    composable("payment", content = { Payement() })
                 },
                 modifier = Modifier.background(Color.White)
                 )
