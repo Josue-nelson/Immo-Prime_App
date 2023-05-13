@@ -29,6 +29,7 @@ fun RowCardLogement(items: List<Logement>){
         Spacer(modifier = Modifier.height(12.dp))
         LazyRow{
             items(items){
+
                 CardLogement("Appartement",
                     50000.0,
                     "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",

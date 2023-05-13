@@ -76,6 +76,16 @@ fun AddLogement(
 //            )
             // Type
             dropDownMenu()
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = type,
+                onValueChange = {
+                    type = it
+                },
+                label = {
+                    Text(text = "Type")
+                }
+            )
             // Price
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -167,6 +177,7 @@ fun AddLogement(
                 }
             ) {
                 Text(text = "Publier")
+                Text(text = "Save")
             }
         }
     }

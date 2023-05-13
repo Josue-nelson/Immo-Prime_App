@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.immo_prime.R
+import com.example.immo_prime.Utility.Logement
 import com.example.immo_prime.ui.theme.BorderCardImo
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
@@ -46,7 +47,7 @@ fun CardLogement(
             .background(DarkGrayImo, RoundedCornerShape(10.dp))
     ) {
         Image(
-            painter = image,
+            painter = painterResource(id = R.drawable.house5),
             contentDescription = null,
             modifier = Modifier
                 .height(149.dp)
@@ -164,6 +165,7 @@ fun CardLogement(
 @Preview(showBackground = true)
 @Composable
 fun CardLogementPreview(){
+
     CardLogement(
         "Appartement",
         50000.0,

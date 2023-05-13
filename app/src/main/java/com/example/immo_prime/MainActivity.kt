@@ -31,7 +31,10 @@ class MainActivity : ComponentActivity() {
                     composable("home_screen", content = { HomeScreen(navController=navController) })
                     composable("choice_account", content = { ChoiceAccountType(navController = navController) })
                     composable("detail_screen" , content={ DetailScreen(navController=navController) })
+<<<<<<< HEAD
                     composable("payment", content = { Payement() })
+=======
+>>>>>>> edf7713caf03d15e049932d5d963dea91c8f09a7
                 },
                 modifier = Modifier.background(Color.White)
                 )
