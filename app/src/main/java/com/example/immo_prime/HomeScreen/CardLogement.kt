@@ -40,7 +40,7 @@ fun CardLogement(
             .background(DarkGrayImo, RoundedCornerShape(10.dp))
     ) {
         Image(
-            painter = logement.Picture,
+            painter = painterResource(id = R.drawable.house5),
             contentDescription = null,
             modifier = Modifier
                 .height(149.dp)
