@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.immo_prime.Animations.LoadingAnimation
+import com.example.immo_prime.Animations_object.LoadingAnimation
 import kotlinx.coroutines.delay
 
 @Composable
