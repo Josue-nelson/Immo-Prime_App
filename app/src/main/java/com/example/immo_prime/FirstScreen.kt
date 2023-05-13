@@ -73,7 +73,7 @@ fun FirstSection(
                     color = DarkBlueImo
                 ),
                 onClick = {
-                          navController.navigate("login_screen")
+                          navController.navigate("choice_account")
                 },
 
             )

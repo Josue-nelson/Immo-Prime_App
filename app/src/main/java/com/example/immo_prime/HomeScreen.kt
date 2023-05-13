@@ -112,6 +112,12 @@ fun HomeScreen(navController: NavController
                         contentDescription = "Get help",
                         icon = Icons.Default.Info
                     ),
+                    MenuItem(
+                        id = "logement",
+                        title = "Logement",
+                        contentDescription = "logement",
+                        icon = Icons.Default.Room
+                    )
                 ),
                 onItemClick = {
                     println("Clicked on ${it.title}")
@@ -132,10 +138,7 @@ fun HomeScreen(navController: NavController
 
             }
         },
-
-
-
-        )
+    )
 }
 
 
