@@ -1,6 +1,9 @@
 package com.example.immo_prime
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -12,6 +15,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.immo_prime.Authentication.LoginScreen
 import com.example.immo_prime.Authentication.RegisterScreen
 import com.example.immo_prime.DetaillScreen.DetailScreen
+import com.example.immo_prime.LogementScreen.AddLogement
+import com.example.immo_prime.Utility.sharedViewModel
 import com.example.immo_prime.ui.theme.IMMOPRIMETheme
 import com.example.immo_prime.ui.theme.Payement
 
@@ -22,7 +27,6 @@ class MainActivity : ComponentActivity() {
             IMMOPRIMETheme {
                 // A surface container using the 'background' color from the theme
                 val navController = rememberNavController()
-
                 NavHost(navController = navController, startDestination = "splash_screen", builder = {
                     composable("splash_screen", content = { SplashScreen(navController = navController) })
                     composable("first_screen", content = { FirstSection(navController = navController) })
@@ -31,14 +35,22 @@ class MainActivity : ComponentActivity() {
                     composable("home_screen", content = { HomeScreen(navController=navController) })
                     composable("choice_account", content = { ChoiceAccountType(navController = navController) })
                     composable("detail_screen" , content={ DetailScreen(navController=navController) })
-<<<<<<< HEAD
                     composable("payment", content = { Payement() })
-=======
->>>>>>> edf7713caf03d15e049932d5d963dea91c8f09a7
+                    composable("add_logement", content = { AddLogement(navController = navController, sharedViewModel = sharedViewModel()) })
                 },
                 modifier = Modifier.background(Color.White)
                 )
             }
         }
     }
+}
+
+fun makeToastConnection(context: Context){
+    Toast.makeText(context, "ERREUR DE CONNEXION A INTERNET", Toast.LENGTH_LONG).show()
+}
+
+fun isInternetConnected(context: Context): Boolean {
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetworkInfo = connectivityManager.activeNetworkInfo
+    return activeNetworkInfo != null && activeNetworkInfo.isConnected
 }

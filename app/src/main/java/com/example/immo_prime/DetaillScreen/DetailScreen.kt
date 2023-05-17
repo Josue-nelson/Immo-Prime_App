@@ -1,7 +1,6 @@
 package com.example.immo_prime.DetaillScreen
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -116,16 +115,14 @@ private fun ParallaxToolBar(navController: NavController) {
                 .align(Alignment.TopEnd)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            var isClickedIcon by remember { mutableStateOf(false) }
-            val buttonColor = animateColorAsState(if (isClickedIcon) DarkGrayImo else DarkGreenImo)
-            Button(
-                onClick = { isClickedIcon != isClickedIcon },
+           Button(
+                onClick = {  },
                 shape = CircleShape,
                 modifier = Modifier
                     .size(50.dp)
                     .background(Color.Transparent),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = buttonColor.value
+                    backgroundColor = DarkGrayImo
                 )
             ) {
                 Icon(Icons.Filled.Favorite, contentDescription = null, tint = DarkGrayImo2)
@@ -167,13 +164,11 @@ fun LogementDescription(navController: NavController) {
             fontSize = 14.sp
         )
         Image(painter = painterResource(id = R.drawable.ic_for_sale_2), contentDescription = null, modifier = Modifier.padding(end = 5.dp))
-        Button(onClick = { navController.navigate("payment") }) {
-            Text("Payment")
-        }
 
     }
     Row (
-        modifier = Modifier.padding(start = 20.dp, top = 10.dp)
+        modifier = Modifier.padding(start = 20.dp, top = 10.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
     ){
         Text(text = "50,000,0 Fcfa", fontSize = 30.sp)
     }

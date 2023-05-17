@@ -122,11 +122,12 @@ fun HomeScreen(navController: NavController
                         id = "logement",
                         title = "Logement",
                         contentDescription = "logement",
-                        icon = Icons.Default.Room
+                        icon = Icons.Default.Room,
                     )
                 ),
                 onItemClick = {
                     println("Clicked on ${it.title}")
+                    if(it.id == "logement") navController.navigate("add_logement")
                 }
             )
         },

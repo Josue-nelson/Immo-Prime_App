@@ -7,8 +7,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -47,6 +49,7 @@ import com.google.firebase.ktx.Firebase
 fun RegisterScreen(navController: NavController){ // Ecran d'inscription
     Column(modifier = Modifier
         .fillMaxSize()
+        .verticalScroll(rememberScrollState())
         .background(Color.White)
     ) {
 

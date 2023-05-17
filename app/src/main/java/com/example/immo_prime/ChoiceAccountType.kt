@@ -2,16 +2,15 @@ package com.example.immo_prime
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -22,7 +21,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.immo_prime.ui.theme.DarkBlueImo
 import com.example.immo_prime.ui.theme.DarkGrayImo
-import com.example.immo_prime.ui.theme.Shapes
 import com.example.immo_prime.ui.theme.WhiteImo
 
 @Composable
@@ -59,7 +57,7 @@ fun ChoiceAccountType(navController: NavController){
                 onClick = {
                     accountType = "Proprietaire"
                     Log.i(accountType, "account type : ")
-                    navController.navigate("login_screen")
+                    navController.navigate("first_screen")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -82,7 +80,7 @@ fun ChoiceAccountType(navController: NavController){
                 onClick = {
                     accountType = "Client"
                     Log.i(accountType, "account type : ")
-                    navController.navigate("login_screen")
+                    navController.navigate("first_screen")
                 },
                 modifier = Modifier
                     .fillMaxWidth()

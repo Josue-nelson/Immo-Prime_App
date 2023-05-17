@@ -17,13 +17,15 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.example.immo_prime.ui.theme.DarkBlueImo
+import com.example.immo_prime.ui.theme.DarkGrayImo
 
 @Preview(showBackground = true)
 @Composable
 fun dropDownMenu() {
 
     var expanded by remember { mutableStateOf(false) }
-    val suggestions = listOf("Studio", "Une Chambre<", "Deux Chambres", "Trois Chambres")
+    val suggestions = listOf("Studio", "Villa", "Appartement")
     var selectedText by remember { mutableStateOf("") }
 
     var textfieldSize by remember { mutableStateOf(Size.Zero)}
@@ -34,7 +36,7 @@ fun dropDownMenu() {
         Icons.Filled.KeyboardArrowDown
 
 
-    Column(Modifier.padding(20.dp)) {
+    Column(Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp).fillMaxWidth()) {
         OutlinedTextField(
             value = selectedText,
             onValueChange = { selectedText = it },
@@ -48,7 +50,13 @@ fun dropDownMenu() {
             trailingIcon = {
                 Icon(icon,"contentDescription",
                     Modifier.clickable { expanded = !expanded })
-            }
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = DarkGrayImo,
+                cursorColor = DarkBlueImo,
+                focusedLabelColor = DarkBlueImo,
+                focusedIndicatorColor = DarkBlueImo
+            )
         )
         DropdownMenu(
             expanded = expanded,
