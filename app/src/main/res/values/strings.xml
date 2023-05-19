@@ -1,5 +1,10 @@
 <resources>
-    <string name="app_name">IMMO-PRIME</string>
-    <item name="map" type="id">ID_MAP</item>
-    <item name="map_view" type="id">ID_MAP_VIEW</item>
+    <string name="app_name">PaymentCardDetail</string>
+
+
+    <string name="card_holder_name">Card holder name</string>
+    <string name="card_holder_number">Card number</string>
+    <string name="expiry_date">Expiry date</string>
+    <string name="cvc">CVC</string>
+    <string name="save">save</string>
 </resources>
