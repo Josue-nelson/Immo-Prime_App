@@ -108,6 +108,7 @@ fun AddLogement(
             OutlinedTextField(
                 modifier = Modifier
                     .padding(start = 20.dp, end = 20.dp)
+                    .height(100.dp)
                     .fillMaxWidth(),
                 value = description,
                 onValueChange = {
@@ -121,7 +122,9 @@ fun AddLogement(
                     cursorColor = DarkBlueImo,
                     focusedLabelColor = DarkBlueImo,
                     focusedIndicatorColor = DarkBlueImo
-                )
+                ),
+                singleLine = false,
+                maxLines = 4
             )
             // Nombre de douche
             OutlinedTextField(

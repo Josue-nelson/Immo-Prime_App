@@ -57,7 +57,7 @@ fun ChoiceAccountType(navController: NavController){
                 onClick = {
                     accountType = "Proprietaire"
                     Log.i(accountType, "account type : ")
-                    navController.navigate("first_screen")
+                    navController.navigate("login_screen")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -80,7 +80,7 @@ fun ChoiceAccountType(navController: NavController){
                 onClick = {
                     accountType = "Client"
                     Log.i(accountType, "account type : ")
-                    navController.navigate("first_screen")
+                    navController.navigate("login_screen")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -96,7 +96,6 @@ fun ChoiceAccountType(navController: NavController){
                 )
             }
         }
-
 }
 
 @Preview(showBackground = true)
