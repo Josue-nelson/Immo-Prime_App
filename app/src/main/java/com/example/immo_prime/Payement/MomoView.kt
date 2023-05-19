@@ -1,4 +1,4 @@
-package com.jetpack.paymentcarddetail.Payement
+package com.example.immo_prime.Payement
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

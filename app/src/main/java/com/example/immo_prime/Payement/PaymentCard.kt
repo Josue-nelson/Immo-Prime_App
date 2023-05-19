@@ -1,4 +1,4 @@
-package com.jetpack.paymentcarddetail.Payement
+package com.example.immo_prime.Payement
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.immo_prime.R
 
 @ExperimentalAnimationApi
 @Composable
