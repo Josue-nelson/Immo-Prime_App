@@ -303,7 +303,7 @@ fun HorizontalImageList(navController: NavController) {
            }
             Spacer(modifier = Modifier.width(10.dp))
             Card (
-                onClick = { navController.navigate("detail_screen") }
+                onClick = { navController.navigate("payment_screen") }
                     ){
                 CardLogement("Appartement",
                     50000.0,
@@ -316,7 +316,7 @@ fun HorizontalImageList(navController: NavController) {
             }
             Spacer(modifier = Modifier.width(10.dp))
             Card(
-                onClick = { navController.navigate("detail_screen") }
+                onClick = { navController.navigate("payment_screen") }
             ) {
                 CardLogement("Appartement",
                     50000.0,
