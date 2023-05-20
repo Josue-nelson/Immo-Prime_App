@@ -202,12 +202,33 @@ class sharedViewModel(): ViewModel() {
     }
 
     // Afficher la liste des logements
-    fun AfficherAllLogement(){
+    fun AfficherAllLogement(context: Context){
         // Initialisation de la connexion avec le FireStore
-        val fireStoreRef = Firebase.firestore
+        val fireStoreRef =FirebaseFirestore.getInstance()
 
-        // C'est fort on vera sa plus tard
-
+        var logementItems = mutableListOf<Logement?>()
+        fireStoreRef.collection("documents").get()
+            .addOnSuccessListener { querySnapshots ->
+                if (!querySnapshots.isEmpty){
+                    val list = querySnapshots.documents
+                    for (d in list){
+                        val c : Logement? = d.toObject(Logement::class.java)
+                        logementItems.add(c)
+                    }
+                } else{
+                    Toast.makeText(
+                        context,
+                        "Votre liste de logement est vide",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }.addOnFailureListener {
+                Toast.makeText(
+                    context,
+                    "Nous n'arrivos pas a charger la liste de vos logements",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 
 }
