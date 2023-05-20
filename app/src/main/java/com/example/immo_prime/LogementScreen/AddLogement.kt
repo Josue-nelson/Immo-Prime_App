@@ -1,27 +1,35 @@
 package com.example.immo_prime.LogementScreen
 
+import android.content.Intent
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.immo_prime.Animations_object.ImagePicker
-import com.example.immo_prime.Animations_object.dropDownMenu
+import coil.compose.rememberImagePainter
 import com.example.immo_prime.Utility.Logement
 import com.example.immo_prime.Utility.sharedViewModel
 import com.example.immo_prime.ui.theme.DarkBlueImo
@@ -32,12 +40,12 @@ fun AddLogement(
     navController: NavController,
     sharedViewModel: sharedViewModel
 ) {
-    val id: String by remember { mutableStateOf("") }
+    //val id: String by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("") }
     var price by remember { mutableStateOf("") }
     var priceDouble by remember { mutableStateOf(0.0) }
     var description by remember { mutableStateOf("") }
-    val picture by remember{ mutableStateOf(null)}
+    var picture by remember{ mutableStateOf<Uri?>(null)}
     var nbreDouche by remember { mutableStateOf("") }
     var nbreDoucheInt by remember { mutableStateOf(0) }
     var nbreChambre by remember { mutableStateOf("") }
@@ -72,15 +80,112 @@ fun AddLogement(
         }
             // add data Layout
             Spacer(modifier = Modifier.height(20.dp))
+        var imageUri by remember { mutableStateOf<Uri?>(null) }
             // Image
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ){
-                ImagePicker()
+
+
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    if (imageUri == null) {
+                        // Afficher un placeholder si aucune image n'est sélectionnée
+                        Box(
+                            modifier = Modifier
+                                .size(200.dp)
+                                .background(Color.Gray),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("Sélectionner une image", color = Color.White)
+                        }
+                    } else {
+                        // Afficher l'image sélectionnée
+                        Image(
+                            painter = rememberImagePainter(imageUri),
+                            contentDescription = "Image sélectionnée",
+                            modifier = Modifier.size(200.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result ->
+                        // Récupérer l'URI de l'image sélectionnée
+                        result.data?.data?.let { uri ->
+                            imageUri = uri
+                        }
+                    }
+
+                    Button(onClick = {
+                        // Ouvrir la galerie lorsqu'on clique sur le bouton
+                        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                            type = "image/*"
+                        }
+                        launcher.launch(intent)
+                    },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = DarkBlueImo
+                        )
+                    ) {
+                        Text("Sélectionner une image", color = Color.White)
+                    }
+                }
             }
             // Type
-            dropDownMenu()
+        var expanded by remember { mutableStateOf(false) }
+        val suggestions = listOf("Studio", "Villa", "Appartement")
+
+        var textfieldSize by remember { mutableStateOf(Size.Zero)}
+
+        val icon = if (expanded)
+            Icons.Filled.KeyboardArrowUp
+        else
+            Icons.Filled.KeyboardArrowDown
+
+
+        Column(Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp).fillMaxWidth()) {
+            OutlinedTextField(
+                value = type,
+                onValueChange = { type = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onGloballyPositioned { coordinates ->
+                        //This value is used to assign to the DropDown the same width
+                        textfieldSize = coordinates.size.toSize()
+                    },
+                label = {Text("Type de logement")},
+                trailingIcon = {
+                    Icon(icon,"contentDescription",
+                        Modifier.clickable { expanded = !expanded })
+                },
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = DarkGrayImo,
+                    cursorColor = DarkBlueImo,
+                    focusedLabelColor = DarkBlueImo,
+                    focusedIndicatorColor = DarkBlueImo
+                )
+            )
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier
+                    .width(with(LocalDensity.current){textfieldSize.width.toDp()})
+            ) {
+                suggestions.forEach { label ->
+                    DropdownMenuItem(onClick = {
+                        type = label
+                        expanded = false
+                    }) {
+                        Text(text = label)
+                    }
+                }
+            }
+        }
             // Price
             OutlinedTextField(
                 modifier = Modifier
@@ -205,14 +310,14 @@ fun AddLogement(
                     val userData = Logement(
                         type = type,
                         price = priceDouble,
-                        //Picture = rememberImagePainter(data = ""),
                         description = description,
                         nbreDouche = nbreDoucheInt,
                         nbreChambre = nbreChambreInt,
                         superficie = superficieDouble
                     )
 
-                    sharedViewModel.saveLogement(logement = userData, context = context)
+                   // sharedViewModel.ajouterLogement(logement = userData, imageUri = = imageUri, context = context)
+                    sharedViewModel.saveLogement(logement = userData, context = context, imageUri = imageUri)
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = DarkBlueImo,

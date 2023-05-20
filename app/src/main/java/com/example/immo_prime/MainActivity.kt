@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,11 +17,15 @@ import com.example.immo_prime.Authentication.LoginScreen
 import com.example.immo_prime.Authentication.RegisterScreen
 import com.example.immo_prime.DetaillScreen.DetailScreen
 import com.example.immo_prime.LogementScreen.AddLogement
+import com.example.immo_prime.Payement.AddPaymentCard
+import com.example.immo_prime.Payement.MyMomoBox
+import com.example.immo_prime.Payement.MyOmBox
 import com.example.immo_prime.Utility.sharedViewModel
 import com.example.immo_prime.ui.theme.IMMOPRIMETheme
 import com.example.immo_prime.ui.theme.Payement
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -37,6 +42,9 @@ class MainActivity : ComponentActivity() {
                     composable("detail_screen" , content={ DetailScreen(navController=navController) })
                     composable("payment", content = { Payement() })
                     composable("add_logement", content = { AddLogement(navController = navController, sharedViewModel = sharedViewModel()) })
+                    composable("payment_screen", content = { AddPaymentCard(navController = navController) })
+                    composable("om_payment_screen", content = { MyOmBox(navController = navController) })
+                    composable("momo_payment_screen", content = { MyMomoBox(navController = navController) })
                 },
                 modifier = Modifier.background(Color.White)
                 )

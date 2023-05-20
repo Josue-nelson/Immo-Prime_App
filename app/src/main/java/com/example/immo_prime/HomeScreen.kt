@@ -291,7 +291,7 @@ fun HorizontalImageList(navController: NavController) {
 
     LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
         items(images) {
-           Card(onClick = { navController.navigate("detail_screen") }){
+           Card(onClick = { navController.navigate("payment_screen") }){
                CardLogement("Appartement",
                    50000.0,
                    "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
