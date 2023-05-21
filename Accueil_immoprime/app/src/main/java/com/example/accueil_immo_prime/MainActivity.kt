@@ -96,6 +96,7 @@ fun MyScreen() {
 @Composable
 fun NavigationBar() {
     BottomNavigation {
+
         BottomNavigationItem(
             icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
             selected = true,
@@ -392,8 +393,10 @@ fun CardWithImageAndText() {
 
 
             )
-            Button(onClick = { /* Do something */ }, modifier = Modifier.align(Alignment.End)) {
+            Button(modifier = Modifier.align(Alignment.End),
+                onClick = { /* Do something */ }) {
                 Text("Read More")
+''
             }
         }
     }
