@@ -92,12 +92,15 @@ fun HomeScreen(navController: NavController
         drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
         drawerContent = {
             NavigationDrawer(
-                AvatarUrl = "https://images.pexels.com/users/avatars/501854872/yvana-tchinda-387.png?auto=compress&fit=crop&h=30&w=30&dpr=1",
-                //AvatarUrl  =" https://www.bing.com/th?id=OIP.H_nHckb6rTgcBw9hNszMoAHaEK&w=333&h=187&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
+
+                // AvatarUrl = "https://plus.unsplash.com/premium_photo-1684093759271-1ec27d9f0dac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
+                AvatarUrl = painterResource(id = R.drawable.yvanac),
                 name = "yvana cabrelle",
                 email = "tchindayvana@gmail.com",
+                Icon =   painterResource(id = R.drawable.yvanac),
                 items = listOf<MenuItem>().toList()
             )
+//code pour l'affichage de la liste des menus a l'ecran
             DrawerBody(
                 items = listOf(
                     MenuItem(
@@ -105,6 +108,26 @@ fun HomeScreen(navController: NavController
                         title = "Home",
                         contentDescription = "Go to home screen",
                         icon = Icons.Default.Home
+                    ),
+
+                    MenuItem(
+                        id = "account",
+                        title = "Account",
+                        contentDescription = "Get help",
+                        icon = Icons.Default.AccountBox
+                    ),
+                    MenuItem(
+                        id = "favorites",
+                        title = "Favorites",
+                        contentDescription = "Get help",
+                        icon = Icons.Default.LocalFlorist
+                    ),
+
+                    MenuItem(
+                        id = "logement",
+                        title = "Logement",
+                        contentDescription = "logement",
+                        icon = Icons.Default.Apartment,
                     ),
                     MenuItem(
                         id = "settings",
@@ -117,20 +140,45 @@ fun HomeScreen(navController: NavController
                         title = "Help",
                         contentDescription = "Get help",
                         icon = Icons.Default.Info
-                    ),
-                    MenuItem(
-                        id = "logement",
-                        title = "Logement",
-                        contentDescription = "logement",
-                        icon = Icons.Default.Room,
                     )
+
+
                 ),
                 onItemClick = {
                     println("Clicked on ${it.title}")
                     if(it.id == "logement") navController.navigate("add_logement")
                 }
+
             )
+
+            DrawerBody1(
+
+                items = listOf(
+                    MenuItem(
+                        id = "terms",
+                        title = "Terms & condition",
+                        contentDescription = "Go to home screen",
+                        icon = Icons.Default.GraphicEq
+                    ),
+                    MenuItem(
+                        id = "settings",
+                        title = "Bank account details",
+                        contentDescription = "Go to settings screen",
+                        icon = Icons.Default.Home
+                    )
+
+                ),
+                onItemClick = {
+                    println("Clicked on ${it.title} ")
+                    if(it.id == "terms") navController.navigate("terms_app_screen")
+                }
+
+            )
+
         },
+
+
+
 
         content = {
             Column(modifier = Modifier.verticalScroll(scrollState)) {
@@ -288,20 +336,20 @@ fun HorizontalImageList(navController: NavController) {
 
     LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
         items(images) {
-           Card(onClick = { navController.navigate("payment_screen") }){
-               CardLogement("Appartement",
-                   50000.0,
-                   "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
-                   2,
-                   2,
-                   900.0,
-                   image = painterResource(id = R.drawable.house3),
-               )
-           }
+            Card(onClick = { navController.navigate("payment_screen") }){
+                CardLogement("Appartement",
+                    50000.0,
+                    "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",
+                    2,
+                    2,
+                    900.0,
+                    image = painterResource(id = R.drawable.house3),
+                )
+            }
             Spacer(modifier = Modifier.width(10.dp))
             Card (
                 onClick = { navController.navigate("payment_screen") }
-                    ){
+            ){
                 CardLogement("Appartement",
                     50000.0,
                     "Rue des palmier Nkolmesseng-Yaounde\nA 100m de Cyntiche Lounge",

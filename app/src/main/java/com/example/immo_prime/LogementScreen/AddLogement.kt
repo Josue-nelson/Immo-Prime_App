@@ -1,12 +1,11 @@
 package com.example.immo_prime.LogementScreen
 
-import android.content.Intent
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -29,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.rememberImagePainter
+import com.example.immo_prime.Animations_object.ImagePicker
 import com.example.immo_prime.Utility.Logement
 import com.example.immo_prime.Utility.sharedViewModel
 import com.example.immo_prime.ui.theme.DarkBlueImo
@@ -45,7 +44,8 @@ fun AddLogement(
     var price by remember { mutableStateOf("") }
     var priceDouble by remember { mutableStateOf(0.0) }
     var description by remember { mutableStateOf("") }
-    var picture by remember{ mutableStateOf<Uri?>(null)}
+    var imageUri by remember{ mutableStateOf<Uri?>(null)}
+    var Picture by remember { mutableStateOf("") }
     var nbreDouche by remember { mutableStateOf("") }
     var nbreDoucheInt by remember { mutableStateOf(0) }
     var nbreChambre by remember { mutableStateOf("") }
@@ -80,61 +80,13 @@ fun AddLogement(
         }
             // add data Layout
             Spacer(modifier = Modifier.height(20.dp))
-        var imageUri by remember { mutableStateOf<Uri?>(null) }
+
             // Image
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ){
-
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    if (imageUri == null) {
-                        // Afficher un placeholder si aucune image n'est sélectionnée
-                        Box(
-                            modifier = Modifier
-                                .size(200.dp)
-                                .background(Color.Gray),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("Sélectionner une image", color = Color.White)
-                        }
-                    } else {
-                        // Afficher l'image sélectionnée
-                        Image(
-                            painter = rememberImagePainter(imageUri),
-                            contentDescription = "Image sélectionnée",
-                            modifier = Modifier.size(200.dp)
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result ->
-                        // Récupérer l'URI de l'image sélectionnée
-                        result.data?.data?.let { uri ->
-                            imageUri = uri
-                        }
-                    }
-
-                    Button(onClick = {
-                        // Ouvrir la galerie lorsqu'on clique sur le bouton
-                        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-                            type = "image/*"
-                        }
-                        launcher.launch(intent)
-                    },
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = DarkBlueImo
-                        )
-                    ) {
-                        Text("Sélectionner une image", color = Color.White)
-                    }
-                }
+                ImagePicker()
             }
             // Type
         var expanded by remember { mutableStateOf(false) }
@@ -148,7 +100,10 @@ fun AddLogement(
             Icons.Filled.KeyboardArrowDown
 
 
-        Column(Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp).fillMaxWidth()) {
+        Column(
+            Modifier
+                .padding(start = 20.dp, end = 20.dp, top = 20.dp)
+                .fillMaxWidth()) {
             OutlinedTextField(
                 value = type,
                 onValueChange = { type = it },
