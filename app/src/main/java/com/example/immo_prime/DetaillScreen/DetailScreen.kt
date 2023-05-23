@@ -115,8 +115,12 @@ private fun ParallaxToolBar(navController: NavController) {
                 .align(Alignment.TopEnd)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
+            var changeColor by remember {mutableStateOf(false) }
            Button(
-                onClick = {  },
+                onClick = {
+                    changeColor =! changeColor
+                    println(changeColor)
+                },
                 shape = CircleShape,
                 modifier = Modifier
                     .size(50.dp)
@@ -125,7 +129,7 @@ private fun ParallaxToolBar(navController: NavController) {
                     backgroundColor = DarkGrayImo
                 )
             ) {
-                Icon(Icons.Filled.Favorite, contentDescription = null, tint = DarkGrayImo2)
+                Icon(Icons.Filled.Favorite, contentDescription = null, tint = if(changeColor) Color.Red else DarkGrayImo2)
                 Spacer(modifier = Modifier.width(16.dp))
             }
         }

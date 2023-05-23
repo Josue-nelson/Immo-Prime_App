@@ -132,9 +132,6 @@ fun HomeScreen(navController: NavController
             )
         },
 
-
-
-
         content = {
             Column(modifier = Modifier.verticalScroll(scrollState)) {
                 HeaderWithImage()
