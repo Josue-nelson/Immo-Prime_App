@@ -6,23 +6,24 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.immo_prime.Animations_object.SearchBar
 import com.example.immo_prime.DetaillScreen.TransparentBottomNavigation
 import com.example.immo_prime.HomeScreen.CardLogement
 import com.example.immo_prime.ui.theme.DarkBlueImo
@@ -37,15 +38,18 @@ import kotlinx.coroutines.launch
 //    }
 //}
 
-
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview(){
+    HomeScreen(navController = rememberNavController())
+}
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(navController: NavController
 ) {
     val scrollState = rememberScrollState()
-    val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
-
+    val scope = rememberCoroutineScope()
 
 
     Scaffold(
@@ -78,7 +82,6 @@ fun HomeScreen(navController: NavController
 //
 //
 //        },
-
         topBar = {
             AppBar(
                 onNavigationIconClick = {
@@ -86,7 +89,7 @@ fun HomeScreen(navController: NavController
                         scaffoldState.drawerState.open()
                     }
                 }
-            )
+            ) // Ceci est L'APP BAR contenant le nom de l'application et le bouton d'acces au Drawer
         },
 
         drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
@@ -185,33 +188,12 @@ fun HomeScreen(navController: NavController
                 HeaderWithImage()
                 HorizontalImageList(navController = navController)
                 CardWithImageAndText()
-                CardWithImageAndText()
-
-
-
             }
         },
     )
 }
 
 
-
-@Composable
-fun ParallaxTopAppBar(
-    title: String,
-
-    actions: @Composable () -> Unit = {}
-) {
-    Box() {
-        TopAppBar(
-            title = { Text(title) },
-
-            elevation = 0.dp,
-            navigationIcon = null,
-
-            )
-    }
-}
 
 
 @Composable
@@ -221,86 +203,43 @@ fun HeaderWithImage() {
             .height(200.dp)
             .fillMaxWidth()
     ){
+        // FOnd d'ecran de l'image
         Image(
             painter = painterResource(R.drawable.house2),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop // Remplit toute la Box grace a la propriete Crop
         )
 
-        Box(
+        Column(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .offset(20.dp)
-                .padding(vertical = 4.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxWidth()
             //.background(Color.Gray, shape = RoundedCornerShape(4.dp))
 
         ) {
+
+
             Text(
-                text = "Dicover Your Favorite House",
-                modifier = Modifier.padding(vertical = 5.dp),
+                text = "Dicover Your\nNew House",
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+                    .fillMaxWidth(),
                 style = TextStyle(fontSize = 34.sp),
-                color = Color.Black,
-
-
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.ExtraBold
                 )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 80.dp),
-            // .border(1.dp, Color.Gray, shape = RoundedCornerShape(16.dp)),
-            verticalAlignment = Alignment.Bottom,
-        ) {
-            TextField(
-
-                value = "",
-                onValueChange = {  },
-                label = { Text("Search") },
-                modifier = Modifier.weight(1f),
-                textStyle = MaterialTheme.typography.body2.copy(color = Color.Black),
-
-                )
-
-        }
-    }
-}
-@Composable
-fun HousePurchaseCard() {
-    Card(
-        modifier = Modifier
-            .width(20.dp)
-            .padding(16.dp),
-        elevation = 8.dp,
-        shape = RoundedCornerShape(16.dp)
-    ) {
-        Column {
-            Image(
-                painterResource(id = R.drawable.house1),
-                contentDescription = "Appartemenent a louer situer a douala-logbessou ",
-                modifier = Modifier
-                    .height(180.dp)
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
-                contentScale = ContentScale.Crop
-            )
-
             Text(
-                text = "50.000f",
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier
-                    .padding(16.dp)
-                    .padding(end = 5.dp)
+                text = "Let's to discover your ideal house",
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)
             )
-
-            Text(
-                text = "Pour acheter une maison, il est important de déterminer votre budget, de trouver une propriété qui répond à vos besoins et à vos critères, de faire une offre et de négocier le contrat de vente. Vous devrez également organiser une inspection de la maison et obtenir une assurance habitation. N'oubliez pas les coûts supplémentaires tels que les frais de clôture et les taxes foncières.",
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            )
+            SearchBar() // Ceci une composante appellé et crée par moi meme
         }
     }
 }
@@ -528,7 +467,7 @@ fun HorizontalImageList2(
     }
 
     LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
-        items(images) { item ->
+        items(images) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()

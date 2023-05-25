@@ -38,4 +38,7 @@
     <string name="expiry_date">Expiry date</string>
     <string name="cvc">CVC</string>
     <string name="save">save</string>
+    <string name="recherche">Rechercher un logement</string>
+    <string name="search">search icon</string>
+    <string name="element_rechercher">Douala, Logbessou</string>
 </resources>
