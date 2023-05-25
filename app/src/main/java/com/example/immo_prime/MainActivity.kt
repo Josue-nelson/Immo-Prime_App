@@ -17,6 +17,7 @@ import com.example.immo_prime.Authentication.LoginScreen
 import com.example.immo_prime.Authentication.RegisterScreen
 import com.example.immo_prime.DetaillScreen.DetailScreen
 import com.example.immo_prime.LogementScreen.AddLogement
+import com.example.immo_prime.LogementScreen.ListLogementScreen
 import com.example.immo_prime.OtherScreen.TermsAppScreen
 import com.example.immo_prime.Payement.AddPaymentCard
 import com.example.immo_prime.Payement.MyMomoBox
@@ -47,6 +48,7 @@ class MainActivity : ComponentActivity() {
                     composable("om_payment_screen", content = { MyOmBox(navController = navController) })
                     composable("momo_payment_screen", content = { MyMomoBox(navController = navController) })
                     composable("terms_app_screen", content = { TermsAppScreen(navController = navController) })
+                    composable("list_logement", content = { ListLogementScreen(navController = navController) })
                 },
                 modifier = Modifier.background(Color.White)
                 )

@@ -55,33 +55,6 @@ fun HomeScreen(navController: NavController
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = { TransparentBottomNavigation()} ,
-
-//        topBar = {
-//            Surface(
-//                elevation = 4.dp,
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    modifier = Modifier
-//                        .padding(16.dp)
-//                        .background(color = Color.Transparent)
-//                        .fillMaxWidth()
-//                ) {
-//                    IconButton(onClick = onNavigationIconClick) {
-//                        Icon(Icons.Filled.Person, "Profile")
-//                    }
-//
-//                    Spacer(modifier = Modifier.weight(1f))
-//
-//                    IconButton(onClick = { /* Do something */ }) {
-//                        Icon(Icons.Filled.Favorite, "Application logo")
-//                    }
-//                }
-//            }
-//
-//
-//        },
         topBar = {
             AppBar(
                 onNavigationIconClick = {
@@ -128,7 +101,7 @@ fun HomeScreen(navController: NavController
 
                     MenuItem(
                         id = "logement",
-                        title = "Logement",
+                        title = "Gestion de logement",
                         contentDescription = "logement",
                         icon = Icons.Default.Apartment,
                     ),
@@ -149,7 +122,7 @@ fun HomeScreen(navController: NavController
                 ),
                 onItemClick = {
                     println("Clicked on ${it.title}")
-                    if(it.id == "logement") navController.navigate("add_logement")
+                    if(it.id == "logement") navController.navigate("list_logement")
                 }
 
             )
@@ -188,6 +161,7 @@ fun HomeScreen(navController: NavController
                 HeaderWithImage()
                 HorizontalImageList(navController = navController)
                 CardWithImageAndText()
+                Spacer(modifier = Modifier.height(50.dp))
             }
         },
     )
@@ -237,7 +211,9 @@ fun HeaderWithImage() {
                 text = "Let's to discover your ideal house",
                 color = Color.White,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp)
             )
             SearchBar() // Ceci une composante appellé et crée par moi meme
         }
@@ -509,12 +485,3 @@ fun HorizontalImageList2(
         }
     }
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreview() {
-//    Accueil_immoprimeTheme {
-//        Greeting("Android")
-//    }
-//}
